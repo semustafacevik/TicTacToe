@@ -49,7 +49,7 @@ namespace TicTacToe
             }
 
             this.Close();
-            Form_Game = new frmGameForm();
+            Form_Game = new frmGameForm(gameMode, P1, P2);
             Form_Game.ShowDialog();
 
 
@@ -152,5 +152,9 @@ namespace TicTacToe
             }
         }
 
+        private void txtName_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        {
+            e.Handled = Char.IsWhiteSpace(e.KeyChar);
+        }
     }
 }

@@ -42,8 +42,8 @@
             this.btnOP2 = new MetroFramework.Controls.MetroButton();
             this.txtNameP2 = new MetroFramework.Controls.MetroTextBox();
             this.btnXP2 = new MetroFramework.Controls.MetroButton();
-            this.lblChoiceP2 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel4 = new MetroFramework.Controls.MetroLabel();
+            this.lblChoiceP2 = new MetroFramework.Controls.MetroLabel();
             this.pnlP1.SuspendLayout();
             this.pnlP2.SuspendLayout();
             this.SuspendLayout();
@@ -139,6 +139,7 @@
             this.txtNameP1.UseSelectable = true;
             this.txtNameP1.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtNameP1.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.txtNameP1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtName_KeyPress);
             // 
             // metroLabel2
             // 
@@ -251,6 +252,7 @@
             this.txtNameP2.UseSelectable = true;
             this.txtNameP2.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtNameP2.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.txtNameP2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtName_KeyPress);
             // 
             // btnXP2
             // 
@@ -265,6 +267,15 @@
             this.btnXP2.UseCustomBackColor = true;
             this.btnXP2.UseSelectable = true;
             this.btnXP2.Click += new System.EventHandler(this.OnClick_XO);
+            // 
+            // metroLabel4
+            // 
+            this.metroLabel4.AutoSize = true;
+            this.metroLabel4.Location = new System.Drawing.Point(0, 25);
+            this.metroLabel4.Name = "metroLabel4";
+            this.metroLabel4.Size = new System.Drawing.Size(45, 19);
+            this.metroLabel4.TabIndex = 0;
+            this.metroLabel4.Text = "Name";
             // 
             // lblChoiceP2
             // 
@@ -281,15 +292,6 @@
             this.lblChoiceP2.UseCustomBackColor = true;
             this.lblChoiceP2.UseCustomForeColor = true;
             this.lblChoiceP2.Visible = false;
-            // 
-            // metroLabel4
-            // 
-            this.metroLabel4.AutoSize = true;
-            this.metroLabel4.Location = new System.Drawing.Point(0, 25);
-            this.metroLabel4.Name = "metroLabel4";
-            this.metroLabel4.Size = new System.Drawing.Size(45, 19);
-            this.metroLabel4.TabIndex = 0;
-            this.metroLabel4.Text = "Name";
             // 
             // frmInfoForm
             // 
