@@ -1,0 +1,14 @@
+C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\bin\Debug\TicTacToe.exe.config
+C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\bin\Debug\TicTacToe.exe
+C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\bin\Debug\TicTacToe.pdb
+C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\bin\Debug\MetroFramework.Design.dll
+C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\bin\Debug\MetroFramework.dll
+C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\bin\Debug\MetroFramework.Fonts.dll
+C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\obj\Debug\TicTacToe.csprojResolveAssemblyReference.cache
+C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\obj\Debug\TicTacToe.frmEntryForm.resources
+C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\obj\Debug\TicTacToe.Properties.Resources.resources
+C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\obj\Debug\TicTacToe.csproj.GenerateResource.Cache
+C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\obj\Debug\TicTacToe.csproj.CoreCompileInputs.cache
+C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\obj\Debug\TicTacToe.exe
+C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\obj\Debug\TicTacToe.pdb
+C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\obj\Debug\TicTacToe.frmInfoForm.resources
