@@ -83,6 +83,7 @@
             this.btnOP1.Text = "O";
             this.btnOP1.UseCustomBackColor = true;
             this.btnOP1.UseSelectable = true;
+            this.btnOP1.Click += new System.EventHandler(this.OnClick_XO);
             // 
             // btnXP1
             // 
@@ -96,6 +97,7 @@
             this.btnXP1.Text = "X";
             this.btnXP1.UseCustomBackColor = true;
             this.btnXP1.UseSelectable = true;
+            this.btnXP1.Click += new System.EventHandler(this.OnClick_XO);
             // 
             // lblNameP1
             // 
@@ -150,7 +152,7 @@
             // lblChoiceP1
             // 
             this.lblChoiceP1.AutoSize = true;
-            this.lblChoiceP1.BackColor = System.Drawing.Color.ForestGreen;
+            this.lblChoiceP1.BackColor = System.Drawing.Color.Chocolate;
             this.lblChoiceP1.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.lblChoiceP1.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.lblChoiceP1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
@@ -182,8 +184,8 @@
             this.pnlP2.Controls.Add(this.btnOP2);
             this.pnlP2.Controls.Add(this.txtNameP2);
             this.pnlP2.Controls.Add(this.btnXP2);
-            this.pnlP2.Controls.Add(this.lblChoiceP2);
             this.pnlP2.Controls.Add(this.metroLabel4);
+            this.pnlP2.Controls.Add(this.lblChoiceP2);
             this.pnlP2.HorizontalScrollbarBarColor = true;
             this.pnlP2.HorizontalScrollbarHighlightOnWheel = false;
             this.pnlP2.HorizontalScrollbarSize = 10;
@@ -218,6 +220,7 @@
             this.btnOP2.Text = "O";
             this.btnOP2.UseCustomBackColor = true;
             this.btnOP2.UseSelectable = true;
+            this.btnOP2.Click += new System.EventHandler(this.OnClick_XO);
             // 
             // txtNameP2
             // 
@@ -261,11 +264,12 @@
             this.btnXP2.Text = "X";
             this.btnXP2.UseCustomBackColor = true;
             this.btnXP2.UseSelectable = true;
+            this.btnXP2.Click += new System.EventHandler(this.OnClick_XO);
             // 
             // lblChoiceP2
             // 
             this.lblChoiceP2.AutoSize = true;
-            this.lblChoiceP2.BackColor = System.Drawing.Color.ForestGreen;
+            this.lblChoiceP2.BackColor = System.Drawing.Color.Chocolate;
             this.lblChoiceP2.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.lblChoiceP2.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.lblChoiceP2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
@@ -299,7 +303,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmInfoForm";
-            this.Style = MetroFramework.MetroColorStyle.Green;
+            this.Style = MetroFramework.MetroColorStyle.Orange;
             this.pnlP1.ResumeLayout(false);
             this.pnlP1.PerformLayout();
             this.pnlP2.ResumeLayout(false);

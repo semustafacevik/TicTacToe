@@ -12,3 +12,4 @@ C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\obj\Debug\TicTacToe.cspro
 C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\obj\Debug\TicTacToe.exe
 C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\obj\Debug\TicTacToe.pdb
 C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\obj\Debug\TicTacToe.frmInfoForm.resources
+C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\obj\Debug\TicTacToe.frmGameForm.resources

@@ -60,12 +60,19 @@
     <Compile Include="Form_EntryForm.Designer.cs">
       <DependentUpon>Form_EntryForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form_GameForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_GameForm.Designer.cs">
+      <DependentUpon>Form_GameForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form_InfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form_InfoForm.Designer.cs">
       <DependentUpon>Form_InfoForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Drawing.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Player1.cs" />
     <Compile Include="Player2.cs" />
@@ -73,6 +80,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form_EntryForm.resx">
       <DependentUpon>Form_EntryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_GameForm.resx">
+      <DependentUpon>Form_GameForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_InfoForm.resx">
       <DependentUpon>Form_InfoForm.cs</DependentUpon>

@@ -6,14 +6,16 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using MetroFramework;
+using MetroFramework.Forms;
+using MetroFramework.Controls;
 using System.Net;
 using System.Net.Sockets;
 
+
 namespace TicTacToe
 {
-    public partial class frmEntryForm : MetroFramework.Forms.MetroForm
+    public partial class frmEntryForm : MetroForm
     {
         public static Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         private const int _PORT = 44644;
@@ -27,9 +29,11 @@ namespace TicTacToe
 
         private void OnClick(object sender, EventArgs e)
         {
-            Button clickedButton = (Button)sender;
+            MetroButton clickedButton = (MetroButton)sender;
+            string buttonText = clickedButton.Text;
+            string buttonName = clickedButton.Name;
 
-            switch (clickedButton.Name)
+            switch (buttonName)
             {
                 case "btnSocket":
                     btnCreate.Show();
@@ -48,7 +52,7 @@ namespace TicTacToe
                     try
                     {
                         socket.Connect(localEndPoint);
-                        Form_Info = new frmInfoForm(clickedButton.Text);
+                        Form_Info = new frmInfoForm(buttonText);
                         Form_Info.ShowDialog();
                     }
                     catch
@@ -59,8 +63,9 @@ namespace TicTacToe
                     break;
 
                 case "btnJoin":
-                    lblIP.Show();
+                    lblIP.Show();                   
                     txtIP.Show();
+                    txtIP.Text = "127.0.0.1";
                     btnConnect.Show();
                     btnJoin.Hide();
                     break;
@@ -75,7 +80,7 @@ namespace TicTacToe
                         socket.Connect(new IPEndPoint(IPAddress.Parse(serverIP), _PORT));
                         MetroMessageBox.Show(this, "Successfully connetted");
 
-                        Form_Info = new frmInfoForm(clickedButton.Text);
+                        Form_Info = new frmInfoForm(buttonText);
                         Form_Info.ShowDialog();
                     }
                     catch (Exception ex)
@@ -86,7 +91,7 @@ namespace TicTacToe
                     break;
 
                 default:
-                    Form_Info = new frmInfoForm(clickedButton.Text);
+                    Form_Info = new frmInfoForm(buttonText);
                     Form_Info.ShowDialog();
                     break;
             }
