@@ -1,0 +1,7 @@
+C:\Users\MustafaCevik\source\repos\TicTacToe\GameServer\bin\Debug\GameServer.exe.config
+C:\Users\MustafaCevik\source\repos\TicTacToe\GameServer\bin\Debug\GameServer.exe
+C:\Users\MustafaCevik\source\repos\TicTacToe\GameServer\bin\Debug\GameServer.pdb
+C:\Users\MustafaCevik\source\repos\TicTacToe\GameServer\obj\Debug\GameServer.csproj.CoreCompileInputs.cache
+C:\Users\MustafaCevik\source\repos\TicTacToe\GameServer\obj\Debug\GameServer.exe
+C:\Users\MustafaCevik\source\repos\TicTacToe\GameServer\obj\Debug\GameServer.pdb
+C:\Users\MustafaCevik\source\repos\TicTacToe\GameServer\obj\Debug\GameServer.csprojResolveAssemblyReference.cache

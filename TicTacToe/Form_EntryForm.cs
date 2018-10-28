@@ -11,7 +11,7 @@ using MetroFramework.Forms;
 using MetroFramework.Controls;
 using System.Net;
 using System.Net.Sockets;
-
+using System.IO;
 
 namespace TicTacToe
 {
@@ -42,15 +42,11 @@ namespace TicTacToe
                     break;
 
                 case "btnCreate":
-                    //string myPath = @"C:\Users\MustafaCevik\source\repos\MyServer\MyServer\bin\Debug\MyServer.exe";
-                    //System.Diagnostics.Process prc = new System.Diagnostics.Process();
-                    //prc.StartInfo.FileName = myPath;
-                    //prc.Start();
-
                     IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), _PORT);
 
                     try
                     {
+                        CreateServer();
                         socket.Connect(localEndPoint);
                         Form_Info = new frmInfoForm(buttonText);
                         Form_Info.ShowDialog();
@@ -78,7 +74,7 @@ namespace TicTacToe
                     try
                     {
                         socket.Connect(new IPEndPoint(IPAddress.Parse(serverIP), _PORT));
-                        MetroMessageBox.Show(this, "Successfully connetted");
+                        MetroMessageBox.Show(this, "Successfully connected"); // Server was connected successfully
 
                         Form_Info = new frmInfoForm(buttonText);
                         Form_Info.ShowDialog();
@@ -97,6 +93,19 @@ namespace TicTacToe
             }
 
             
+        }
+
+        private void CreateServer()
+        {
+            string path = System.Windows.Forms.Application.StartupPath;
+            DirectoryInfo di = Directory.GetParent(path);
+            DirectoryInfo di2 = Directory.GetParent(di.ToString());
+            DirectoryInfo di3 = Directory.GetParent(di2.ToString());
+
+            string editedPath = di3.ToString();
+            editedPath += @"\GameServer\bin\Debug\GameServer.exe";
+
+            System.Diagnostics.Process.Start(editedPath);
         }
     }
 }
