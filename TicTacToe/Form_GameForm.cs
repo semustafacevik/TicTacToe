@@ -37,6 +37,68 @@ namespace TicTacToe
             this.P2 = P2;
             starting = enStarting.None;
 
+
+            if (this.gameMode == enGameMode.Socket_Connect && this.gameMode == enGameMode.Socket_Create)
+            {
+                while (true)
+                {
+                    byte[] message = new byte[256];
+                    string incommingMsg;
+                    frmEntryForm.socket.Send(Encoding.UTF8.GetBytes("Client ?"));
+                    frmEntryForm.socket.Receive(message);
+                    incommingMsg = Edited_IncommingMessage(message);
+
+                    if (incommingMsg == "C=2")
+                    {
+                        if (this.gameMode == enGameMode.Socket_Create)
+                        {
+                            message = new byte[256];
+                            frmEntryForm.socket.Send(Encoding.UTF8.GetBytes("Name ?P2"));
+                            frmEntryForm.socket.Receive(message);
+                            incommingMsg = Edited_IncommingMessage(message);
+                            this.P2.name = incommingMsg;
+
+                            message = new byte[256];
+                            frmEntryForm.socket.Send(Encoding.UTF8.GetBytes("Choice ?P2"));
+                            frmEntryForm.socket.Receive(message);
+                            incommingMsg = Edited_IncommingMessage(message);
+                            this.P2.choice = incommingMsg;
+
+                        }
+
+                        else if (this.gameMode == enGameMode.Socket_Connect)
+                        {
+                            message = new byte[256];
+                            frmEntryForm.socket.Send(Encoding.UTF8.GetBytes("Name ?P1"));
+                            frmEntryForm.socket.Receive(message);
+                            incommingMsg = Edited_IncommingMessage(message);
+                            this.P1.name = incommingMsg;
+
+                            message = new byte[256];
+                            frmEntryForm.socket.Send(Encoding.UTF8.GetBytes("Choice ?P1"));
+                            frmEntryForm.socket.Receive(message);
+                            incommingMsg = Edited_IncommingMessage(message);
+                            this.P1.choice = incommingMsg;
+
+                            if (incommingMsg == "X")
+                                this.P2.choice = "O";
+                            else
+                                this.P2.choice = "X";
+                        }
+
+                        else
+                        { }
+
+                        break;
+                    }
+
+                    else
+                        MetroMessageBox.Show(this, "Waiting Player2");
+                }
+
+            }
+
+
             lblNameP1.Text = P1.name;
             lblNameP2.Text = P2.name;
 
@@ -370,6 +432,23 @@ namespace TicTacToe
                 default:
                     break;
             }
+        }
+
+
+        private string Edited_IncommingMessage(byte[] msg)
+        {
+            string incommingMsg = (Encoding.UTF8.GetString(msg));
+
+            int index = incommingMsg.IndexOf("\0");
+
+            string editedMessage = incommingMsg.Substring(0, index);
+
+            return editedMessage;
+        }
+
+        private void frmGameForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            MessageBox.Show("Test");
         }
     }
 }

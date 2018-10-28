@@ -87,6 +87,7 @@ namespace TicTacToe
                     break;
 
                 default:
+                    this.Hide();
                     Form_Info = new frmInfoForm(buttonText);
                     Form_Info.ShowDialog();
                     break;

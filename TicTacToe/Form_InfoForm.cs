@@ -27,30 +27,46 @@ namespace TicTacToe
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            P1.name = txtNameP1.Text;
+            P2.name = txtNameP2.Text;
+
             switch (gameMode)
             {
                 case "CREATE SERVER":
                     CheckName_P1();
                     CheckXO();
+
+                    string sendMessage_P1 = "Name=" + P1.name + " " + P1.choice + "P1";
+                    byte[] message_P1 = Encoding.UTF8.GetBytes(sendMessage_P1);
+
+                    frmEntryForm.socket.Send(message_P1);
+
                     break;
 
                 case "CONNECT":
                     CheckName_P2();
+
+                    string sendMessage_P2 = "Name=" + P2.name + " " + P2.choice + "P2";
+                    byte[] message_P2 = Encoding.UTF8.GetBytes(sendMessage_P2);
+
+                    frmEntryForm.socket.Send(message_P2);
+
                     break;
 
                 default:
-                    P1.name = txtNameP1.Text;
-                    P2.name = txtNameP2.Text;
-
                     CheckName_P1();
                     CheckName_P2();
                     CheckXO();
+
+                    if (gameMode == "COMPUTER")
+                        P2.name = "Computer";
+
                     break;
             }
 
-            this.Close();
+            Close();
             Form_Game = new frmGameForm(gameMode, P1, P2);
-            Form_Game.ShowDialog();
+            Form_Game.Show();
 
 
         }

@@ -279,6 +279,7 @@ namespace TicTacToe
             this.Controls.Add(this.pnlGame);
             this.Name = "frmGameForm";
             this.Style = MetroFramework.MetroColorStyle.Lime;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmGameForm_FormClosed);
             this.pnlGame.ResumeLayout(false);
             this.ResumeLayout(false);
 
