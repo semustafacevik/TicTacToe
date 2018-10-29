@@ -305,6 +305,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmInfoForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Style = MetroFramework.MetroColorStyle.Orange;
             this.pnlP1.ResumeLayout(false);
             this.pnlP1.PerformLayout();

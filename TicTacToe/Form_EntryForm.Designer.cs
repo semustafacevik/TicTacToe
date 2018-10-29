@@ -184,6 +184,7 @@
             this.MinimizeBox = false;
             this.Name = "frmEntryForm";
             this.Style = MetroFramework.MetroColorStyle.Teal;
+            this.TransparencyKey = System.Drawing.Color.Empty;
             this.ResumeLayout(false);
             this.PerformLayout();
 

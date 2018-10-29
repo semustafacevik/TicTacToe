@@ -44,13 +44,16 @@ namespace GameServer
 
         static string[] clientName = new string[2];
         static string[] clientChoice = new string[2];
+        static string[] clientPlay = new string[2];
+        static string[] gameLabelsXO = new string[9];
 
         static byte[] lastMessage = null;
 
 
         static void User(Socket client)
         {
-
+            clientPlay[0] = "-";
+            clientPlay[1] = "-";
             while (true)
             {
                 byte[] message = new byte[256];
@@ -59,38 +62,28 @@ namespace GameServer
 
                 string incommingMsg = IncommingMessage(message);
 
-                string playerName;
-                string playerChoice;
-                if (incommingMsg.StartsWith("Name="))
-                {
-                    playerName = Edited_Name(incommingMsg);
-
-                    if (incommingMsg.EndsWith("P1"))
-                    {
-                        playerChoice = Edited_Choice(incommingMsg);
-                        clientName[0] = playerName;
-                        clientChoice[0] = playerChoice;
-
-                        if (playerChoice == "X")
-                            clientChoice[1] = "O";
-                        else
-                            clientChoice[1] = "X";
-                    }
-
-                    else
-                    {
-                        clientName[1] = playerName;
-                    }
-                }
+                if (incommingMsg.StartsWith(" Name="))
+                    Edited_Name(incommingMsg);
 
                 //////************
 
+                if (incommingMsg.StartsWith(" lbl"))
+                    Edited_Label(incommingMsg);
 
 
-                if (!incommingMsg.StartsWith("Client ?") && !incommingMsg.StartsWith("Last ?") && !incommingMsg.StartsWith("Name ?"))                 
-                    lastMessage = message;
+                //if (!incommingMsg.StartsWith("Client ?") && !incommingMsg.StartsWith("Last ?") && !incommingMsg.StartsWith("Name ?"))                 
+                //    lastMessage = message;
 
-                if(incommingMsg.StartsWith("Name ?"))
+                if (incommingMsg.StartsWith(" ?lbl?"))
+                {
+                    string labelXO = Info_LabelXO();
+                    client.Send(Encoding.UTF8.GetBytes(labelXO));
+                }
+
+                if (incommingMsg.StartsWith(" Play?"))
+                    client.Send(Encoding.UTF8.GetBytes(clientPlay[0] + clientPlay[1]));
+
+                if (incommingMsg.StartsWith(" Name?"))
                 {
                     if (incommingMsg.EndsWith("P1"))
                         client.Send(Encoding.UTF8.GetBytes(clientName[0]));
@@ -99,7 +92,7 @@ namespace GameServer
                         client.Send(Encoding.UTF8.GetBytes(clientName[1]));
                 }
 
-                if(incommingMsg.StartsWith("Choice ?"))
+                if (incommingMsg.StartsWith(" Choice?"))
                 {
                     if (incommingMsg.EndsWith("P1"))
                         client.Send(Encoding.UTF8.GetBytes(clientChoice[0]));
@@ -108,52 +101,108 @@ namespace GameServer
                         client.Send(Encoding.UTF8.GetBytes(clientChoice[1]));
                 }
 
-                if (incommingMsg.StartsWith("Client ?"))
-                    client.Send(Encoding.UTF8.GetBytes("C=" + numberOfClient.ToString()));
+                if (incommingMsg.StartsWith(" Client?"))
+                    client.Send(Encoding.UTF8.GetBytes(" C=" + numberOfClient.ToString()));
 
-                if (incommingMsg.StartsWith("Last ?"))
+                if (incommingMsg.StartsWith(" Last?"))
                     client.Send(lastMessage);
 
             }
         }
 
 
+
         static string IncommingMessage(byte[] msg)
         {
             string incommingMsg = (Encoding.UTF8.GetString(msg));
 
-            string incommingMessage = Edited_IncommingMessage(incommingMsg);
+            string editedMessage = Edited_IncommingMessage(incommingMsg);
 
-            return incommingMessage;
+            return editedMessage;
         }
 
         static string Edited_IncommingMessage(string msg)
         {
-            int index = msg.IndexOf("\0");
+            int length = msg.IndexOf("\0");
 
-            string editedMessage = msg.Substring(0, index);
-
-            return editedMessage;
-        }
-
-        static string Edited_Name(string msg)
-        {
-            int index = msg.IndexOf(" ");
-            int length = index - 5;
-
-            string editedMessage = msg.Substring(5, length);
+            string editedMessage = msg.Substring(0, length);
 
             return editedMessage;
         }
 
-        static string Edited_Choice(string msg)
+        static void Edited_Name(string msg)
         {
-            string name = Edited_Name(msg);
-            int length = name.Length;
+            int index = msg.IndexOf("-");
+            int length = index - 6;
 
-            string editedMessage = msg.Substring(6 + length, 1);
+            string editedMessage = msg.Substring(6, length);
+
+            string playerName;
+            string playerChoice;
+
+            playerName = editedMessage;
+
+            if (msg.EndsWith("P1"))
+            {
+                playerChoice = Edited_Choice(msg, playerName);
+                clientName[0] = playerName;
+                clientChoice[0] = playerChoice;
+
+                if (playerChoice == "X")
+                    clientChoice[1] = "O";
+                else
+                    clientChoice[1] = "X";
+            }
+
+            else
+            {
+                clientName[1] = playerName;
+            }
+        }
+
+        static string Edited_Choice(string msg, string name)
+        {
+            int nameLength = name.Length;
+
+            string editedMessage = msg.Substring(7 + nameLength, 1);
 
             return editedMessage;
+        }
+
+        static void Edited_Label(string msg)
+        {
+            string labelXO = msg.Substring(5, 1);
+
+            string index = msg.Substring(4, 1);
+            int labelIndex = Convert.ToInt32(index);
+
+            gameLabelsXO[labelIndex] = labelXO;
+
+            if (msg.EndsWith("P1"))
+            {
+                clientPlay[0] = "Y";
+                clientPlay[1] = "N";
+            }
+            else
+            {
+                clientPlay[0] = "N";
+                clientPlay[1] = "Y";
+            }
+        }
+
+        static string Info_LabelXO()
+        {
+            string allLabelsXO = "";
+
+            for (int i = 0; i < 9; i++)
+            {
+                if (gameLabelsXO[i] == null)
+                    gameLabelsXO[i] = " ";
+
+                allLabelsXO += gameLabelsXO[i];
+            }
+
+            return allLabelsXO;
         }
     }
 }

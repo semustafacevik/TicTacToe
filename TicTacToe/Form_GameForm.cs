@@ -10,6 +10,7 @@ using MetroFramework;
 using MetroFramework.Forms;
 using MetroFramework.Controls;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace TicTacToe
 {
@@ -38,49 +39,49 @@ namespace TicTacToe
             starting = enStarting.None;
 
 
-            if (this.gameMode == enGameMode.Socket_Connect && this.gameMode == enGameMode.Socket_Create)
+            if (this.gameMode == enGameMode.Socket_Create || this.gameMode == enGameMode.Socket_Connect)
             {
                 while (true)
                 {
                     byte[] message = new byte[256];
-                    string incommingMsg;
-                    frmEntryForm.socket.Send(Encoding.UTF8.GetBytes("Client ?"));
+                    string incomingMsg;
+                    frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(" Client?"));
                     frmEntryForm.socket.Receive(message);
-                    incommingMsg = Edited_IncommingMessage(message);
+                    incomingMsg = Edited_IncomingMessage(message);
 
-                    if (incommingMsg == "C=2")
+                    if (incomingMsg == " C=2")
                     {
                         if (this.gameMode == enGameMode.Socket_Create)
                         {
                             message = new byte[256];
-                            frmEntryForm.socket.Send(Encoding.UTF8.GetBytes("Name ?P2"));
+                            frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(" Name?P2"));
                             frmEntryForm.socket.Receive(message);
-                            incommingMsg = Edited_IncommingMessage(message);
-                            this.P2.name = incommingMsg;
+                            incomingMsg = Edited_IncomingMessage(message);
+                            this.P2.name = incomingMsg;
 
                             message = new byte[256];
-                            frmEntryForm.socket.Send(Encoding.UTF8.GetBytes("Choice ?P2"));
+                            frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(" Choice?P2"));
                             frmEntryForm.socket.Receive(message);
-                            incommingMsg = Edited_IncommingMessage(message);
-                            this.P2.choice = incommingMsg;
+                            incomingMsg = Edited_IncomingMessage(message);
+                            this.P2.choice = incomingMsg;
 
                         }
 
                         else if (this.gameMode == enGameMode.Socket_Connect)
                         {
                             message = new byte[256];
-                            frmEntryForm.socket.Send(Encoding.UTF8.GetBytes("Name ?P1"));
+                            frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(" Name?P1"));
                             frmEntryForm.socket.Receive(message);
-                            incommingMsg = Edited_IncommingMessage(message);
-                            this.P1.name = incommingMsg;
+                            incomingMsg = Edited_IncomingMessage(message);
+                            this.P1.name = incomingMsg;
 
                             message = new byte[256];
-                            frmEntryForm.socket.Send(Encoding.UTF8.GetBytes("Choice ?P1"));
+                            frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(" Choice?P1"));
                             frmEntryForm.socket.Receive(message);
-                            incommingMsg = Edited_IncommingMessage(message);
-                            this.P1.choice = incommingMsg;
+                            incomingMsg = Edited_IncomingMessage(message);
+                            this.P1.choice = incomingMsg;
 
-                            if (incommingMsg == "X")
+                            if (incomingMsg == "X")
                                 this.P2.choice = "O";
                             else
                                 this.P2.choice = "X";
@@ -95,9 +96,7 @@ namespace TicTacToe
                     else
                         MetroMessageBox.Show(this, "Waiting Player2");
                 }
-
             }
-
 
             lblNameP1.Text = P1.name;
             lblNameP2.Text = P2.name;
@@ -114,24 +113,29 @@ namespace TicTacToe
         {
             lblScoreP1.Text = P1.score.ToString();
             lblScoreP2.Text = P2.score.ToString();
+            lblChoiceP1.BackColor = Color.Transparent;
+            lblChoiceP2.BackColor = Color.Transparent;
 
             Label[] allLabels = { lbl0, lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7, lbl8 };
 
             foreach (Label label in allLabels)
             {
                 label.Text = null;
+                label.BackColor = Color.Transparent;
             }
 
             if (starting == enStarting.None || starting == enStarting.Player2)
             {
                 playerTurn = enPlayerTurn.Player1;
                 starting = enStarting.Player1;
+                ShowTurn(playerTurn.ToString());
             }
 
             else if (starting == enStarting.Player1)
             {
                 playerTurn = enPlayerTurn.Player2;
                 starting = enStarting.Player2;
+                ShowTurn(playerTurn.ToString());
             }
 
             else
@@ -141,7 +145,9 @@ namespace TicTacToe
             winner = enWinner.None;
         }
 
-
+        /// <summary>
+        /// ///////////*********
+        /// </summary>
         int drawScore = 0;
         private enWinner GetWinner()
         {
@@ -166,6 +172,12 @@ namespace TicTacToe
                     if (allWinningMoves[i].Text == allWinningMoves[i + 1].Text &&
                         allWinningMoves[i].Text == allWinningMoves[i + 2].Text)
                     {
+                        allWinningMoves[i].BackColor = Color.LimeGreen;
+                        allWinningMoves[i + 1].BackColor = Color.LimeGreen;
+                        allWinningMoves[i + 2].BackColor = Color.LimeGreen;
+
+                       ******** //Thread th = new ThreadStart()
+
                         if (allWinningMoves[i].Text == "X")
                         {
                             if (P1.choice == "X")
@@ -246,68 +258,194 @@ namespace TicTacToe
             }
 
             playerTurn = enPlayerTurn.Player1;
+            ShowTurn(playerTurn.ToString());
 
         }
+
+        bool refreshGame = false;
+        bool startGame = false;
 
         private void OnClick(object sender, EventArgs e)
         {
             Label clickedLabel = (Label)sender;
+            string labelName = clickedLabel.Name;
             string labelText = clickedLabel.Text;
 
-            if (playerTurn == enPlayerTurn.None || labelText != "")
-                return;
-
-            else if (playerTurn == enPlayerTurn.Player1)
+            if (gameMode == enGameMode.Socket_Connect || gameMode == enGameMode.Socket_Create)
             {
-                clickedLabel.Text = P1.choice;
+                if (refreshGame && startGame)
+                {
+                    if (playerTurn == enPlayerTurn.None || labelText != "")
+                        return;
+                    OnClick_Socket(clickedLabel);
+                }
 
-                //if (gameMode != enGameMode.Computer)
-                //{
-                //    lblNameP2.BackColor = Color.Red;
-                //    lblNameP1.BackColor = Color.Transparent;
-                //}
+                else
+                    MetroMessageBox.Show(this, "REFLESH");
+
+                refreshGame = false;
+                startGame = false;
             }
 
+            else
+            {
+                if (playerTurn == enPlayerTurn.None || labelText != "")
+                    return;
+
+                else if (playerTurn == enPlayerTurn.Player1)
+                {
+                    clickedLabel.Text = P1.choice;
+
+                    ShowTurn(playerTurn.ToString());
+                }
+
+                else
+                {
+                    clickedLabel.Text = P2.choice;
+
+                    ShowTurn(playerTurn.ToString());
+                }
+
+                winner = GetWinner();
+
+
+                labelText = clickedLabel.Text;
+                switch (gameMode)
+                {
+                    case enGameMode.Computer:
+
+                        if (winner == enWinner.None)
+                            Computer();
+
+                        else if (winner != enWinner.None)
+                        {
+                            playerTurn = enPlayerTurn.None;
+                            OnNewGame();
+                            if (starting == enStarting.Player2)
+                                Computer();
+                        }
+
+                        break;
+
+
+
+                    case enGameMode.Friend:
+
+                        if (winner == enWinner.None)
+                        {
+                            //Change turns
+                            playerTurn = (enPlayerTurn.Player1 == playerTurn) ? enPlayerTurn.Player2 : enPlayerTurn.Player1;
+                            ShowTurn(playerTurn.ToString());
+
+                        }
+                        else
+                        {
+                            playerTurn = enPlayerTurn.None;
+                            OnNewGame();
+                        }
+
+                        break;
+
+
+                    case enGameMode.Socket_Create:
+
+                        if (frmEntryForm.socket.Connected)
+                        {
+                            //LabelXOSelection();
+
+                            byte[] incomingMsg = new byte[256];
+                            string message = " " + labelName + labelText + "P1";
+
+                            frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(message));
+                        }
+
+                        if (winner == enWinner.None)
+                        {
+
+                        }
+                        else
+                        {
+                            playerTurn = enPlayerTurn.None;
+                            OnNewGame();
+                        }
+
+
+
+                        break;
+
+
+                    case enGameMode.Socket_Connect:
+
+                        if (frmEntryForm.socket.Connected)
+                        {
+                            byte[] incomingMsg = new byte[256];
+                            string message = " " + labelName + labelText + "P2";
+
+                            frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(message));
+                        }
+
+                        if (winner == enWinner.None)
+                        {
+                        }
+
+                        else
+                        {
+                            playerTurn = enPlayerTurn.None;
+                            OnNewGame();
+                        }
+
+
+
+                        break;
+
+
+
+
+                    default:
+                        break;
+                }
+            }
+        }
+
+
+
+        private void OnClick_Socket(Label clickedLabel)
+        {
+            string labelName = clickedLabel.Name;
+            string labelText = clickedLabel.Text;
+
+            if (playerTurn == enPlayerTurn.Player1)
+            {
+                clickedLabel.Text = P1.choice;
+            }
 
             else
             {
                 clickedLabel.Text = P2.choice;
-                //if (gameMode != enGameMode.Computer)
-                //{
-                //    lblNameP1.BackColor = Color.Red;
-                //    lblNameP2.BackColor = Color.Transparent;
-                //}
             }
 
-            winner = GetWinner();
+            winner = GetWinner(); 
 
+
+            labelText = clickedLabel.Text;
 
             switch (gameMode)
             {
-                case enGameMode.Computer:
+                case enGameMode.Socket_Create:
 
-                    if (winner == enWinner.None)
-                        Computer();
-
-                    else if (winner != enWinner.None)
+                    if (frmEntryForm.socket.Connected)
                     {
-                        playerTurn = enPlayerTurn.None;
-                        OnNewGame();
-                        if (starting == enStarting.Player2)
-                            Computer();
+                        string message_Create = " " + labelName + labelText + "P1";
+
+                        frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(message_Create));
                     }
 
-                    break;
-
-
-
-                case enGameMode.Friend:
-
                     if (winner == enWinner.None)
                     {
-                        //Change turns
-                        playerTurn = (enPlayerTurn.Player1 == playerTurn) ? enPlayerTurn.Player2 : enPlayerTurn.Player1;
-
+                        LabelXO_Placement();
+                        ShowTurn("Player2");
+                        //lblChoiceP2.BackColor = Color.Red;
+                        //lblChoiceP1.BackColor = Color.Transparent;
                     }
                     else
                     {
@@ -315,87 +453,43 @@ namespace TicTacToe
                         OnNewGame();
                     }
 
+
                     break;
 
 
+                case enGameMode.Socket_Connect:
+                    if (frmEntryForm.socket.Connected)
+                    {
+                        string message_Connect = " " + labelName + labelText + "P2";
+
+                        frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(message_Connect));
+                    }
+
+                    if (winner == enWinner.None)
+                    {
+                        LabelXO_Placement();
+                        ShowTurn("Player1");
+                        //lblChoiceP1.BackColor = Color.Red;
+                        //lblChoiceP2.BackColor = Color.Transparent;
+                    }
+
+                    else
+                    {
+                        playerTurn = enPlayerTurn.None;
+                        OnNewGame();
+                    }
 
 
 
-                //case enGameMode.Socket_Creator:
-
-                //    if (frmEntryForm.socket.Connected)
-                //    {
-                //        string gonder = clickedButton.Name + "-" + clickedButton.Text;
-
-                //        // Ağ üzerinden gönderilecek her şey bytelara 
-                //        // dönüştürülmüş olmalıdır.
-                //        frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(gonder));
-                //        MetroMessageBox.Show(this, gonder);
-
-                //        byte[] msg = new byte[1024];
-                //        int size = frmEntryForm.socket.Receive(msg);
-                //        MetroMessageBox.Show(this, ((Encoding.UTF8.GetString(msg)).Split('\0')[0]));
-                //    }
-
-                //    if (winner == enWinner.None)
-                //    {
-                //        //Change turns
-                //        playerTurn = (enPlayerTurn.Player1 == playerTurn) ? enPlayerTurn.Player2 : enPlayerTurn.Player1;
-
-                //    }
-                //    else
-                //    {
-                //        playerTurn = enPlayerTurn.None;
-                //        OnNewGame();
-                //    }
-
-
-
-                //    break;
-
-
-                //case enGameMode.Socket_Connected:
-
-                //    if (frmEntryForm.socket.Connected)
-                //    {
-                //        string gonder = clickedButton.Name + "-" + clickedButton.Text;
-
-                //        // Ağ üzerinden gönderilecek her şey bytelara 
-                //        // dönüştürülmüş olmalıdır.
-                //        frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(gonder));
-                //        MetroMessageBox.Show(this, gonder);
-
-                //        byte[] msg = new byte[1024];
-                //        int size = frmEntryForm.socket.Receive(msg);
-                //        MetroMessageBox.Show(this, ((Encoding.UTF8.GetString(msg)).Split('\0')[0]));
-                //    }
-
-                //if (winner == enWinner.None)
-                //{
-                //    //Change turns
-                //    playerTurn = (enPlayerTurn.Player1 == playerTurn) ? enPlayerTurn.Player2 : enPlayerTurn.Player1;
-
-                //}
-                //else
-                //{
-                //    playerTurn = enPlayerTurn.None;
-                //    OnNewGame();
-                //}
-
-
-
-                //break;
-
-
+                    break;
 
 
                 default:
                     break;
+
             }
+
         }
-
-
-    
 
 
 
@@ -423,10 +517,12 @@ namespace TicTacToe
 
                 case "CREATE SERVER":
                     this.gameMode = enGameMode.Socket_Create;
+                    btnRefresh.Show();
                     break;
 
                 case "CONNECT":
                     this.gameMode = enGameMode.Socket_Connect;
+                    btnRefresh.Show();
                     break;
 
                 default:
@@ -435,20 +531,143 @@ namespace TicTacToe
         }
 
 
-        private string Edited_IncommingMessage(byte[] msg)
+        private string Edited_IncomingMessage(byte[] msg)
         {
-            string incommingMsg = (Encoding.UTF8.GetString(msg));
+            string incomingMsg = (Encoding.UTF8.GetString(msg));
 
-            int index = incommingMsg.IndexOf("\0");
+            int index = incomingMsg.IndexOf("\0");
 
-            string editedMessage = incommingMsg.Substring(0, index);
+            string editedMessage = incomingMsg.Substring(0, index);
 
             return editedMessage;
         }
 
+        private void LabelXO_Placement()
+        {
+            Label[] allLabels = { lbl0, lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7, lbl8 };
+
+            foreach (Label label in allLabels)
+            {
+                label.Text = null;
+            }
+
+            byte[] message = new byte[256];
+            frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(" ?lbl?"));
+            frmEntryForm.socket.Receive(message);
+
+            string incomingMsg = Edited_IncomingMessage(message);
+
+
+            string[] edited_XO = LabelXOSelection(incomingMsg);
+            int index_XO = 0;
+
+            foreach (Label label in allLabels)
+            {
+                label.Text = edited_XO[index_XO];
+                index_XO++;
+            }
+
+        }
+
+        private string[] LabelXOSelection(string XO)
+        {
+            string[] labelXO = new string[9];
+            char[] labelXO_Char = XO.ToCharArray();
+
+            for (int i = 0; i < 9; i++)
+            {
+                labelXO[i] = labelXO_Char[i].ToString();
+
+                if (labelXO[i] == " ")
+                    labelXO[i] = null;
+            }
+
+            return labelXO;
+        }
+
+        private void ShowTurn(string playerTurn)
+        {
+            switch (playerTurn)
+            {
+                case "Player1":
+                    lblChoiceP1.BackColor = Color.Red;
+                    lblChoiceP2.BackColor = Color.Transparent;
+                    break;
+
+                case "Player2":
+                    lblChoiceP2.BackColor = Color.Red;
+                    lblChoiceP1.BackColor = Color.Transparent;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+
         private void frmGameForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             MessageBox.Show("Test");
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            LabelXO_Placement();
+
+            byte[] message = new byte[256];
+            string incomingMsg;
+            frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(" Play?"));
+            frmEntryForm.socket.Receive(message);
+            incomingMsg = Edited_IncomingMessage(message);
+
+
+            if (playerTurn == enPlayerTurn.Player1)
+            {
+                if (incomingMsg == "NY") // Y = Yes ; N = No
+                {
+                    startGame = true;
+                    ShowTurn(playerTurn.ToString());
+                }
+
+                else if (gameMode == enGameMode.Socket_Create && incomingMsg == "--")
+                {
+                    startGame = true;
+                    ShowTurn(playerTurn.ToString());
+                    lblChoiceP1.BackColor = Color.Red;
+                    lblChoiceP2.BackColor = Color.Transparent;
+                }
+
+
+
+                else if (gameMode == enGameMode.Socket_Connect && incomingMsg == "YN")
+                {
+                    startGame = true;
+                    playerTurn = enPlayerTurn.Player2;
+                    ShowTurn(playerTurn.ToString());
+                }
+
+                else if (gameMode == enGameMode.Socket_Connect && incomingMsg == "--")
+                    MetroMessageBox.Show(this, "1 Henuz oynamadi");
+                else
+                    MetroMessageBox.Show(this, "2 OYNAMADI");
+            }
+
+            else if (playerTurn == enPlayerTurn.Player2)
+            {
+                if (incomingMsg == "YN")
+                {
+                    startGame = true;
+                    ShowTurn(playerTurn.ToString());
+                }
+
+                else
+                    MetroMessageBox.Show(this, "1 OYNAMADI");
+            }
+
+            
+
+
+            refreshGame = true;
         }
     }
 }

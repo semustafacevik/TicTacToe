@@ -27,6 +27,7 @@ namespace TicTacToe
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            this.Hide();
             P1.name = txtNameP1.Text;
             P2.name = txtNameP2.Text;
 
@@ -36,7 +37,7 @@ namespace TicTacToe
                     CheckName_P1();
                     CheckXO();
 
-                    string sendMessage_P1 = "Name=" + P1.name + " " + P1.choice + "P1";
+                    string sendMessage_P1 = " Name=" + P1.name + "-" + P1.choice + "P1";
                     byte[] message_P1 = Encoding.UTF8.GetBytes(sendMessage_P1);
 
                     frmEntryForm.socket.Send(message_P1);
@@ -46,7 +47,7 @@ namespace TicTacToe
                 case "CONNECT":
                     CheckName_P2();
 
-                    string sendMessage_P2 = "Name=" + P2.name + " " + P2.choice + "P2";
+                    string sendMessage_P2 = " Name=" + P2.name + "-" + P2.choice + "P2";
                     byte[] message_P2 = Encoding.UTF8.GetBytes(sendMessage_P2);
 
                     frmEntryForm.socket.Send(message_P2);
@@ -64,11 +65,8 @@ namespace TicTacToe
                     break;
             }
 
-            Close();
             Form_Game = new frmGameForm(gameMode, P1, P2);
-            Form_Game.Show();
-
-
+            Form_Game.ShowDialog();
         }
 
         private void OnClick_XO(object sender, EventArgs e)

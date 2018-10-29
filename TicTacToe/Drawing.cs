@@ -19,6 +19,10 @@ namespace TicTacToe
 
         public void createCanvas()
         {
+            //Brush bg = new SolidBrush(Color.WhiteSmoke);
+
+            //gObject.FillRectangle(bg, new Rectangle(0, 0, 500, 599));
+
             Pen pen = new Pen(Color.Black, 5);
 
             graphic.DrawLine(pen, new Point(100, 0), new Point(100, 300));

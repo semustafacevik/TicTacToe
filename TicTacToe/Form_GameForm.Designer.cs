@@ -49,6 +49,7 @@ namespace TicTacToe
             this.lblScoreDraw = new MetroFramework.Controls.MetroLabel();
             this.lblChoiceP1 = new MetroFramework.Controls.MetroLabel();
             this.lblChoiceP2 = new MetroFramework.Controls.MetroLabel();
+            this.btnRefresh = new MetroFramework.Controls.MetroButton();
             this.pnlGame.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -187,6 +188,7 @@ namespace TicTacToe
             this.lblNameP1.Size = new System.Drawing.Size(150, 25);
             this.lblNameP1.TabIndex = 1;
             this.lblNameP1.Text = "P1";
+            this.lblNameP1.UseCustomBackColor = true;
             // 
             // lblNameP2
             // 
@@ -198,6 +200,7 @@ namespace TicTacToe
             this.lblNameP2.TabIndex = 1;
             this.lblNameP2.Text = "P2";
             this.lblNameP2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lblNameP2.UseCustomBackColor = true;
             // 
             // lblScoreP1
             // 
@@ -251,6 +254,7 @@ namespace TicTacToe
             this.lblChoiceP1.Size = new System.Drawing.Size(50, 25);
             this.lblChoiceP1.TabIndex = 1;
             this.lblChoiceP1.Text = "*";
+            this.lblChoiceP1.UseCustomBackColor = true;
             // 
             // lblChoiceP2
             // 
@@ -262,12 +266,28 @@ namespace TicTacToe
             this.lblChoiceP2.TabIndex = 1;
             this.lblChoiceP2.Text = "*";
             this.lblChoiceP2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lblChoiceP2.UseCustomBackColor = true;
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.BackColor = System.Drawing.Color.Transparent;
+            this.btnRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRefresh.Location = new System.Drawing.Point(370, 31);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(64, 23);
+            this.btnRefresh.TabIndex = 2;
+            this.btnRefresh.Text = "REFRESH";
+            this.btnRefresh.UseCustomBackColor = true;
+            this.btnRefresh.UseSelectable = true;
+            this.btnRefresh.Visible = false;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // frmGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(439, 413);
+            this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.lblChoiceP2);
             this.Controls.Add(this.lblScoreP2);
             this.Controls.Add(this.lblScoreDraw);
@@ -278,7 +298,9 @@ namespace TicTacToe
             this.Controls.Add(this.lblNameP1);
             this.Controls.Add(this.pnlGame);
             this.Name = "frmGameForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Style = MetroFramework.MetroColorStyle.Lime;
+            this.TransparencyKey = System.Drawing.Color.Empty;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmGameForm_FormClosed);
             this.pnlGame.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -304,5 +326,6 @@ namespace TicTacToe
         private MetroFramework.Controls.MetroLabel lblScoreDraw;
         private MetroFramework.Controls.MetroLabel lblChoiceP1;
         private MetroFramework.Controls.MetroLabel lblChoiceP2;
+        private MetroFramework.Controls.MetroButton btnRefresh;
     }
 }
