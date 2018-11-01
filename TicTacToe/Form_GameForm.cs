@@ -10,7 +10,6 @@ using MetroFramework;
 using MetroFramework.Forms;
 using MetroFramework.Controls;
 using System.Windows.Forms;
-using System.Threading;
 
 namespace TicTacToe
 {
@@ -47,7 +46,7 @@ namespace TicTacToe
                     string incomingMsg;
                     frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(" Client?"));
                     frmEntryForm.socket.Receive(message);
-                    incomingMsg = Edited_IncomingMessage(message);
+                    incomingMsg = Edit_IncomingMessage(message);
 
                     if (incomingMsg == " C=2")
                     {
@@ -56,13 +55,13 @@ namespace TicTacToe
                             message = new byte[256];
                             frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(" Name?P2"));
                             frmEntryForm.socket.Receive(message);
-                            incomingMsg = Edited_IncomingMessage(message);
+                            incomingMsg = Edit_IncomingMessage(message);
                             this.P2.name = incomingMsg;
 
                             message = new byte[256];
                             frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(" Choice?P2"));
                             frmEntryForm.socket.Receive(message);
-                            incomingMsg = Edited_IncomingMessage(message);
+                            incomingMsg = Edit_IncomingMessage(message);
                             this.P2.choice = incomingMsg;
 
                         }
@@ -72,13 +71,13 @@ namespace TicTacToe
                             message = new byte[256];
                             frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(" Name?P1"));
                             frmEntryForm.socket.Receive(message);
-                            incomingMsg = Edited_IncomingMessage(message);
+                            incomingMsg = Edit_IncomingMessage(message);
                             this.P1.name = incomingMsg;
 
                             message = new byte[256];
                             frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(" Choice?P1"));
                             frmEntryForm.socket.Receive(message);
-                            incomingMsg = Edited_IncomingMessage(message);
+                            incomingMsg = Edit_IncomingMessage(message);
                             this.P1.choice = incomingMsg;
 
                             if (incomingMsg == "X")
@@ -94,7 +93,7 @@ namespace TicTacToe
                     }
 
                     else
-                        MetroMessageBox.Show(this, "Waiting Player2");
+                        MetroMessageBox.Show(this, "Waiting Player2", "", 100);
                 }
             }
 
@@ -115,13 +114,20 @@ namespace TicTacToe
             lblScoreP2.Text = P2.score.ToString();
             lblChoiceP1.BackColor = Color.Transparent;
             lblChoiceP2.BackColor = Color.Transparent;
+            lblNameP1.BackColor = Color.Transparent;
+            lblNameP2.BackColor = Color.Transparent;
+            lblScoreDraw.BackColor = Color.Transparent;
+            lblNameP1.FontWeight = MetroLabelWeight.Regular;
+            lblNameP2.FontWeight = MetroLabelWeight.Regular;
+
+
 
             Label[] allLabels = { lbl0, lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7, lbl8 };
 
             foreach (Label label in allLabels)
             {
                 label.Text = null;
-                label.BackColor = Color.Transparent;
+                label.BackColor = Color.LightGreen;
             }
 
             if (starting == enStarting.None || starting == enStarting.Player2)
@@ -176,21 +182,19 @@ namespace TicTacToe
                         allWinningMoves[i + 1].BackColor = Color.LimeGreen;
                         allWinningMoves[i + 2].BackColor = Color.LimeGreen;
 
-                       ******** //Thread th = new ThreadStart()
-
                         if (allWinningMoves[i].Text == "X")
                         {
                             if (P1.choice == "X")
                             {
-                                MetroMessageBox.Show(this, "WİN -> Player1");
+                                lblNameP1.BackColor = Color.LimeGreen;
                                 P1.score++;
-                                return enWinner.Player1;
+                                winner = enWinner.Player1;
                             }
                             else
                             {
-                                MetroMessageBox.Show(this, "WİN -> Player2");
+                                lblNameP2.BackColor = Color.LimeGreen;
                                 P2.score++;
-                                return enWinner.Player2;
+                                winner = enWinner.Player2;
                             }
 
                         }
@@ -198,17 +202,28 @@ namespace TicTacToe
                         {
                             if (P1.choice == "O")
                             {
-                                MetroMessageBox.Show(this, "WİN -> Player1");
+                                lblNameP1.BackColor = Color.LimeGreen;
                                 P1.score++;
-                                return enWinner.Player1;
+                                winner = enWinner.Player1;
                             }
                             else
                             {
-                                MetroMessageBox.Show(this, "WİN -> Player2");
+                                lblNameP2.BackColor = Color.LimeGreen;
                                 P2.score++;
-                                return enWinner.Player2;
+                                winner = enWinner.Player2;
                             }
                         }
+
+                        if (gameMode == enGameMode.Computer && winner == enWinner.Player2)
+                            MetroMessageBox.Show(this, "Computer", "WINNER", 90);
+                        else
+                            MetroMessageBox.Show(this, winner.ToString(), "WINNER", 90);
+
+                        lblScoreP1.Text = P1.score.ToString();
+                        lblScoreP2.Text = P2.score.ToString();
+
+                        return winner;
+
                     }
                 }
             }
@@ -224,8 +239,9 @@ namespace TicTacToe
             }
 
             //it is definitely a draw
-            MetroMessageBox.Show(this, "DRAW");
             lblScoreDraw.Text = (++drawScore).ToString();
+            lblScoreDraw.BackColor = Color.LimeGreen;
+            MetroMessageBox.Show(this, "DRAW", "RESULT", 90);
             return enWinner.Draw;
         }
 
@@ -277,11 +293,12 @@ namespace TicTacToe
                 {
                     if (playerTurn == enPlayerTurn.None || labelText != "")
                         return;
+
                     OnClick_Socket(clickedLabel);
                 }
 
                 else
-                    MetroMessageBox.Show(this, "REFLESH");
+                    MetroMessageBox.Show(this, "Please click the \"Reflesh\" button", "", 90);
 
                 refreshGame = false;
                 startGame = false;
@@ -295,19 +312,16 @@ namespace TicTacToe
                 else if (playerTurn == enPlayerTurn.Player1)
                 {
                     clickedLabel.Text = P1.choice;
-
                     ShowTurn(playerTurn.ToString());
                 }
 
                 else
                 {
                     clickedLabel.Text = P2.choice;
-
                     ShowTurn(playerTurn.ToString());
                 }
 
                 winner = GetWinner();
-
 
                 labelText = clickedLabel.Text;
                 switch (gameMode)
@@ -407,8 +421,6 @@ namespace TicTacToe
             }
         }
 
-
-
         private void OnClick_Socket(Label clickedLabel)
         {
             string labelName = clickedLabel.Name;
@@ -424,7 +436,8 @@ namespace TicTacToe
                 clickedLabel.Text = P2.choice;
             }
 
-            winner = GetWinner(); 
+            winner = GetWinner();
+            
 
 
             labelText = clickedLabel.Text;
@@ -444,8 +457,6 @@ namespace TicTacToe
                     {
                         LabelXO_Placement();
                         ShowTurn("Player2");
-                        //lblChoiceP2.BackColor = Color.Red;
-                        //lblChoiceP1.BackColor = Color.Transparent;
                     }
                     else
                     {
@@ -469,8 +480,6 @@ namespace TicTacToe
                     {
                         LabelXO_Placement();
                         ShowTurn("Player1");
-                        //lblChoiceP1.BackColor = Color.Red;
-                        //lblChoiceP2.BackColor = Color.Transparent;
                     }
 
                     else
@@ -493,7 +502,7 @@ namespace TicTacToe
 
 
 
-        private void pnlGame_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+        private void pnlGame_Paint(object sender, PaintEventArgs e)
         {
             Graphics graphic = pnlGame.CreateGraphics();
             CS_Drawing = new Drawing(graphic);
@@ -530,8 +539,7 @@ namespace TicTacToe
             }
         }
 
-
-        private string Edited_IncomingMessage(byte[] msg)
+        private string Edit_IncomingMessage(byte[] msg)
         {
             string incomingMsg = (Encoding.UTF8.GetString(msg));
 
@@ -552,10 +560,10 @@ namespace TicTacToe
             }
 
             byte[] message = new byte[256];
-            frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(" ?lbl?"));
+            frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(" Label?"));
             frmEntryForm.socket.Receive(message);
 
-            string incomingMsg = Edited_IncomingMessage(message);
+            string incomingMsg = Edit_IncomingMessage(message);
 
 
             string[] edited_XO = LabelXOSelection(incomingMsg);
@@ -590,35 +598,54 @@ namespace TicTacToe
             switch (playerTurn)
             {
                 case "Player1":
-                    lblChoiceP1.BackColor = Color.Red;
+                    lblChoiceP1.BackColor = Color.IndianRed;
                     lblChoiceP2.BackColor = Color.Transparent;
+                    lblNameP1.FontWeight = MetroLabelWeight.Bold;
+                    lblNameP2.FontWeight = MetroLabelWeight.Regular;
                     break;
 
                 case "Player2":
-                    lblChoiceP2.BackColor = Color.Red;
+                    lblChoiceP2.BackColor = Color.IndianRed;
                     lblChoiceP1.BackColor = Color.Transparent;
-                    break;
+                    lblNameP2.FontWeight = MetroLabelWeight.Bold;
+                    lblNameP1.FontWeight = MetroLabelWeight.Regular;
+                    break; 
 
                 default:
                     break;
             }
         }
 
-
         private void frmGameForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             MessageBox.Show("Test");
         }
 
+
+
         private void btnRefresh_Click(object sender, EventArgs e)
-        {
+        {  
+            winner = GetWinner();
+
             LabelXO_Placement();
+
+            if(winner != enWinner.None)
+            {
+                Label[] allLabels = { lbl0, lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7, lbl8 };
+
+                foreach (Label label in allLabels)
+                {
+                    label.Text = null;
+                }
+
+                OnNewGame();
+            }
 
             byte[] message = new byte[256];
             string incomingMsg;
             frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(" Play?"));
             frmEntryForm.socket.Receive(message);
-            incomingMsg = Edited_IncomingMessage(message);
+            incomingMsg = Edit_IncomingMessage(message);
 
 
             if (playerTurn == enPlayerTurn.Player1)
@@ -633,11 +660,9 @@ namespace TicTacToe
                 {
                     startGame = true;
                     ShowTurn(playerTurn.ToString());
-                    lblChoiceP1.BackColor = Color.Red;
+                    lblChoiceP1.BackColor = Color.IndianRed;
                     lblChoiceP2.BackColor = Color.Transparent;
                 }
-
-
 
                 else if (gameMode == enGameMode.Socket_Connect && incomingMsg == "YN")
                 {
@@ -647,9 +672,9 @@ namespace TicTacToe
                 }
 
                 else if (gameMode == enGameMode.Socket_Connect && incomingMsg == "--")
-                    MetroMessageBox.Show(this, "1 Henuz oynamadi");
+                    MetroMessageBox.Show(this, "Player1 hasn't played yet", "WAITING...", 90);
                 else
-                    MetroMessageBox.Show(this, "2 OYNAMADI");
+                    MetroMessageBox.Show(this, "Player2 hasn't played yet", "WAITING...", 90);
             }
 
             else if (playerTurn == enPlayerTurn.Player2)
@@ -661,13 +686,30 @@ namespace TicTacToe
                 }
 
                 else
-                    MetroMessageBox.Show(this, "1 OYNAMADI");
+                    MetroMessageBox.Show(this, "Player1 hasn't played yet", "WAITING...", 90);
             }
 
-            
-
-
             refreshGame = true;
+        }
+
+        private void lbl_Paint(object sender, PaintEventArgs e)
+        {
+            Label clickedLabel = (Label)sender;
+            string labelText = clickedLabel.Text;
+
+            switch (labelText)
+            {
+                case "X":
+                    clickedLabel.ForeColor = Color.DimGray;
+                    break;
+
+                case "O":
+                    clickedLabel.ForeColor = Color.White;
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
 }

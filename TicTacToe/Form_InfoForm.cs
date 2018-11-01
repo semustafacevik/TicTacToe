@@ -124,8 +124,8 @@ namespace TicTacToe
                     lblSocket.Show();
                     pnlP1.Hide();
                     pnlP2.Location = new Point(110, 20);
-                    btnXP2.Enabled = false;
-                    btnOP2.Enabled = false;
+                    btnXP2.Hide();
+                    btnOP2.Hide();
                     break;
 
                 default:

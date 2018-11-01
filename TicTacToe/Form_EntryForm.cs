@@ -18,7 +18,7 @@ namespace TicTacToe
     public partial class frmEntryForm : MetroForm
     {
         public static Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        private const int _PORT = 44644;
+        private const int _PORT = 44566;
 
         frmInfoForm Form_Info;
 
@@ -53,7 +53,7 @@ namespace TicTacToe
                     }
                     catch
                     {
-                        MetroMessageBox.Show(this, "Server couldn't be created");
+                        MetroMessageBox.Show(this, "Server couldn't be created", "ERROR", 100);
                     }
 
                     break;
@@ -61,7 +61,6 @@ namespace TicTacToe
                 case "btnJoin":
                     lblIP.Show();                   
                     txtIP.Show();
-                    txtIP.Text = "127.0.0.1";
                     btnConnect.Show();
                     btnJoin.Hide();
                     break;
@@ -69,19 +68,19 @@ namespace TicTacToe
                 case "btnConnect":
 
                     string serverIP = txtIP.Text;
-                    MetroMessageBox.Show(this, "Connecting to server (" + serverIP + ")");
+                    MetroMessageBox.Show(this, "Connecting to server (" + serverIP + ")", "", 100);
 
                     try
                     {
                         socket.Connect(new IPEndPoint(IPAddress.Parse(serverIP), _PORT));
-                        MetroMessageBox.Show(this, "Successfully connected"); // Server was connected successfully
+                        MetroMessageBox.Show(this, "Successfully connected", "", 100); // Server was connected successfully
 
                         Form_Info = new frmInfoForm(buttonText);
                         Form_Info.ShowDialog();
                     }
                     catch (Exception ex)
                     {
-                        MetroMessageBox.Show(this, "Failed to connect to server (" + ex.Message + ")");
+                        MetroMessageBox.Show(this, "Failed to connect to server (" + ex.Message + ")", "ERROR");
                     }
 
                     break;

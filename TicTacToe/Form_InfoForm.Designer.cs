@@ -51,7 +51,7 @@
             // lblSocket
             // 
             this.lblSocket.AutoSize = true;
-            this.lblSocket.Location = new System.Drawing.Point(75, 127);
+            this.lblSocket.Location = new System.Drawing.Point(77, 100);
             this.lblSocket.Name = "lblSocket";
             this.lblSocket.Size = new System.Drawing.Size(170, 19);
             this.lblSocket.TabIndex = 13;
@@ -168,13 +168,17 @@
             // 
             // btnStart
             // 
-            this.btnStart.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnStart.Location = new System.Drawing.Point(123, 149);
+            this.btnStart.BackColor = System.Drawing.Color.Chocolate;
+            this.btnStart.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnStart.FontWeight = MetroFramework.MetroButtonWeight.Regular;
+            this.btnStart.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnStart.Location = new System.Drawing.Point(123, 132);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(75, 23);
+            this.btnStart.Size = new System.Drawing.Size(75, 25);
             this.btnStart.TabIndex = 10;
             this.btnStart.Text = "START";
             this.btnStart.UseCustomBackColor = true;
+            this.btnStart.UseCustomForeColor = true;
             this.btnStart.UseSelectable = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
@@ -299,9 +303,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(334, 185);
             this.Controls.Add(this.lblSocket);
-            this.Controls.Add(this.pnlP1);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.pnlP2);
+            this.Controls.Add(this.pnlP1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmInfoForm";

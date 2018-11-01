@@ -65,7 +65,7 @@ namespace TicTacToe
             this.pnlGame.Controls.Add(this.lbl1);
             this.pnlGame.Controls.Add(this.lbl3);
             this.pnlGame.Controls.Add(this.lbl0);
-            this.pnlGame.Location = new System.Drawing.Point(69, 31);
+            this.pnlGame.Location = new System.Drawing.Point(79, 31);
             this.pnlGame.Name = "pnlGame";
             this.pnlGame.Size = new System.Drawing.Size(300, 300);
             this.pnlGame.TabIndex = 0;
@@ -79,9 +79,10 @@ namespace TicTacToe
             this.lbl8.Name = "lbl8";
             this.lbl8.Size = new System.Drawing.Size(90, 90);
             this.lbl8.TabIndex = 1;
-            this.lbl8.Text = "O";
+            this.lbl8.Text = "*";
             this.lbl8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbl8.Click += new System.EventHandler(this.OnClick);
+            this.lbl8.Paint += new System.Windows.Forms.PaintEventHandler(this.lbl_Paint);
             // 
             // lbl5
             // 
@@ -91,21 +92,24 @@ namespace TicTacToe
             this.lbl5.Name = "lbl5";
             this.lbl5.Size = new System.Drawing.Size(90, 90);
             this.lbl5.TabIndex = 1;
-            this.lbl5.Text = "O";
+            this.lbl5.Text = "*";
             this.lbl5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbl5.Click += new System.EventHandler(this.OnClick);
+            this.lbl5.Paint += new System.Windows.Forms.PaintEventHandler(this.lbl_Paint);
             // 
             // lbl2
             // 
             this.lbl2.BackColor = System.Drawing.Color.Transparent;
             this.lbl2.Font = new System.Drawing.Font("Microsoft Sans Serif", 60F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.lbl2.ForeColor = System.Drawing.SystemColors.ControlText;
             this.lbl2.Location = new System.Drawing.Point(205, 5);
             this.lbl2.Name = "lbl2";
             this.lbl2.Size = new System.Drawing.Size(90, 90);
             this.lbl2.TabIndex = 1;
-            this.lbl2.Text = "O";
+            this.lbl2.Text = "*";
             this.lbl2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbl2.Click += new System.EventHandler(this.OnClick);
+            this.lbl2.Paint += new System.Windows.Forms.PaintEventHandler(this.lbl_Paint);
             // 
             // lbl7
             // 
@@ -115,9 +119,10 @@ namespace TicTacToe
             this.lbl7.Name = "lbl7";
             this.lbl7.Size = new System.Drawing.Size(90, 90);
             this.lbl7.TabIndex = 1;
-            this.lbl7.Text = "O";
+            this.lbl7.Text = "*";
             this.lbl7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbl7.Click += new System.EventHandler(this.OnClick);
+            this.lbl7.Paint += new System.Windows.Forms.PaintEventHandler(this.lbl_Paint);
             // 
             // lbl4
             // 
@@ -127,9 +132,10 @@ namespace TicTacToe
             this.lbl4.Name = "lbl4";
             this.lbl4.Size = new System.Drawing.Size(90, 90);
             this.lbl4.TabIndex = 1;
-            this.lbl4.Text = "O";
+            this.lbl4.Text = "*";
             this.lbl4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbl4.Click += new System.EventHandler(this.OnClick);
+            this.lbl4.Paint += new System.Windows.Forms.PaintEventHandler(this.lbl_Paint);
             // 
             // lbl6
             // 
@@ -139,9 +145,10 @@ namespace TicTacToe
             this.lbl6.Name = "lbl6";
             this.lbl6.Size = new System.Drawing.Size(90, 90);
             this.lbl6.TabIndex = 1;
-            this.lbl6.Text = "O";
+            this.lbl6.Text = "*";
             this.lbl6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbl6.Click += new System.EventHandler(this.OnClick);
+            this.lbl6.Paint += new System.Windows.Forms.PaintEventHandler(this.lbl_Paint);
             // 
             // lbl1
             // 
@@ -151,9 +158,10 @@ namespace TicTacToe
             this.lbl1.Name = "lbl1";
             this.lbl1.Size = new System.Drawing.Size(90, 90);
             this.lbl1.TabIndex = 1;
-            this.lbl1.Text = "O";
+            this.lbl1.Text = "*";
             this.lbl1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbl1.Click += new System.EventHandler(this.OnClick);
+            this.lbl1.Paint += new System.Windows.Forms.PaintEventHandler(this.lbl_Paint);
             // 
             // lbl3
             // 
@@ -163,9 +171,10 @@ namespace TicTacToe
             this.lbl3.Name = "lbl3";
             this.lbl3.Size = new System.Drawing.Size(90, 90);
             this.lbl3.TabIndex = 1;
-            this.lbl3.Text = "O";
+            this.lbl3.Text = "*";
             this.lbl3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbl3.Click += new System.EventHandler(this.OnClick);
+            this.lbl3.Paint += new System.Windows.Forms.PaintEventHandler(this.lbl_Paint);
             // 
             // lbl0
             // 
@@ -175,9 +184,10 @@ namespace TicTacToe
             this.lbl0.Name = "lbl0";
             this.lbl0.Size = new System.Drawing.Size(90, 90);
             this.lbl0.TabIndex = 1;
-            this.lbl0.Text = "O";
+            this.lbl0.Text = "*";
             this.lbl0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbl0.Click += new System.EventHandler(this.OnClick);
+            this.lbl0.Paint += new System.Windows.Forms.PaintEventHandler(this.lbl_Paint);
             // 
             // lblNameP1
             // 
@@ -194,7 +204,7 @@ namespace TicTacToe
             // 
             this.lblNameP2.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.lblNameP2.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblNameP2.Location = new System.Drawing.Point(266, 348);
+            this.lblNameP2.Location = new System.Drawing.Point(285, 348);
             this.lblNameP2.Name = "lblNameP2";
             this.lblNameP2.Size = new System.Drawing.Size(150, 25);
             this.lblNameP2.TabIndex = 1;
@@ -216,7 +226,7 @@ namespace TicTacToe
             // 
             this.lblScoreP2.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.lblScoreP2.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblScoreP2.Location = new System.Drawing.Point(366, 373);
+            this.lblScoreP2.Location = new System.Drawing.Point(385, 373);
             this.lblScoreP2.Name = "lblScoreP2";
             this.lblScoreP2.Size = new System.Drawing.Size(50, 25);
             this.lblScoreP2.TabIndex = 1;
@@ -227,18 +237,19 @@ namespace TicTacToe
             // 
             this.metroLabel3.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.metroLabel3.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.metroLabel3.Location = new System.Drawing.Point(172, 348);
+            this.metroLabel3.Location = new System.Drawing.Point(179, 348);
             this.metroLabel3.Name = "metroLabel3";
             this.metroLabel3.Size = new System.Drawing.Size(100, 25);
             this.metroLabel3.TabIndex = 1;
             this.metroLabel3.Text = "DRAW";
             this.metroLabel3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.metroLabel3.UseCustomBackColor = true;
             // 
             // lblScoreDraw
             // 
             this.lblScoreDraw.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.lblScoreDraw.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblScoreDraw.Location = new System.Drawing.Point(172, 373);
+            this.lblScoreDraw.Location = new System.Drawing.Point(179, 373);
             this.lblScoreDraw.Name = "lblScoreDraw";
             this.lblScoreDraw.Size = new System.Drawing.Size(100, 25);
             this.lblScoreDraw.TabIndex = 1;
@@ -251,7 +262,7 @@ namespace TicTacToe
             this.lblChoiceP1.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.lblChoiceP1.Location = new System.Drawing.Point(23, 323);
             this.lblChoiceP1.Name = "lblChoiceP1";
-            this.lblChoiceP1.Size = new System.Drawing.Size(50, 25);
+            this.lblChoiceP1.Size = new System.Drawing.Size(35, 25);
             this.lblChoiceP1.TabIndex = 1;
             this.lblChoiceP1.Text = "*";
             this.lblChoiceP1.UseCustomBackColor = true;
@@ -260,9 +271,9 @@ namespace TicTacToe
             // 
             this.lblChoiceP2.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.lblChoiceP2.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.lblChoiceP2.Location = new System.Drawing.Point(366, 323);
+            this.lblChoiceP2.Location = new System.Drawing.Point(400, 323);
             this.lblChoiceP2.Name = "lblChoiceP2";
-            this.lblChoiceP2.Size = new System.Drawing.Size(50, 25);
+            this.lblChoiceP2.Size = new System.Drawing.Size(35, 25);
             this.lblChoiceP2.TabIndex = 1;
             this.lblChoiceP2.Text = "*";
             this.lblChoiceP2.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -272,7 +283,7 @@ namespace TicTacToe
             // 
             this.btnRefresh.BackColor = System.Drawing.Color.Transparent;
             this.btnRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRefresh.Location = new System.Drawing.Point(370, 31);
+            this.btnRefresh.Location = new System.Drawing.Point(396, 31);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(64, 23);
             this.btnRefresh.TabIndex = 2;
@@ -286,7 +297,7 @@ namespace TicTacToe
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(439, 413);
+            this.ClientSize = new System.Drawing.Size(470, 413);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.lblChoiceP2);
             this.Controls.Add(this.lblScoreP2);
