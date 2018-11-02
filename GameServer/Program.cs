@@ -12,6 +12,11 @@ namespace GameServer
     class Program
     {
         static int numberOfClient = 0;
+
+        /// <summary>
+        /// Main
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             Console.SetWindowSize(30, 15);
@@ -37,13 +42,17 @@ namespace GameServer
                     userThread.Start();
                 }
                 else
-                    Console.WriteLine("ERROR! - Server is full");
+                    Console.WriteLine("ERROR! - Server is full"); // Server is full (Client more than 2)
             }
 
         }
 
+        /// <summary>
+        /// Definitions
+        /// </summary>
         static string[] clientName = new string[2];
         static string[] clientChoice = new string[2];
+        static string[] clientScore = new string[3];
         static string[] clientPlay = new string[2];
         static string[] gameLabelsXO = new string[10];
 
@@ -53,6 +62,9 @@ namespace GameServer
             byte[] message = null;
             clientPlay[0] = "-";
             clientPlay[1] = "-";
+            clientScore[0] = "0";
+            clientScore[1] = "0";
+            clientScore[2] = "0";
             while (true)
             {
                 message = new byte[256];
@@ -73,6 +85,23 @@ namespace GameServer
 
                     else
                         client.Send(Encoding.UTF8.GetBytes(clientName[1]));
+                }
+
+                else if(incommingMsg.StartsWith(" Score="))
+                {
+                    Edit_Score(incommingMsg);
+                }
+
+                else if(incommingMsg.StartsWith(" Score?"))
+                {
+                    if (incommingMsg.EndsWith("P1"))
+                        client.Send(Encoding.UTF8.GetBytes(clientScore[0]));
+
+                    else if(incommingMsg.EndsWith("P2"))
+                        client.Send(Encoding.UTF8.GetBytes(clientScore[1]));
+
+                    else
+                        client.Send(Encoding.UTF8.GetBytes(clientScore[2]));
                 }
 
                 else if (incommingMsg.StartsWith(" Client?"))
@@ -109,6 +138,11 @@ namespace GameServer
             }
         }
 
+        /// <summary>
+        /// Edit messages
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
         static string IncommingMessage(byte[] msg)
         {
             string incommingMsg = (Encoding.UTF8.GetString(msg));
@@ -166,11 +200,18 @@ namespace GameServer
             return editedMessage;
         }
 
+        static void Edit_Score(string msg)
+        {
+            string editedMessage = msg.Substring(7, 1);
+            clientScore[0] = editedMessage;
 
-        /// <summary>
-        /// ////////////////*****
-        /// </summary>
-        /// <param name="msg"></param>
+            editedMessage = msg.Substring(8, 1);
+            clientScore[1] = editedMessage;
+
+            editedMessage = msg.Substring(9, 1);
+            clientScore[2] = editedMessage;
+        }
+
         static void Edit_Label(string msg)
         {
             string labelXO = msg.Substring(5, 1);
@@ -195,11 +236,12 @@ namespace GameServer
                 clientPlay[0] = "Y";
                 clientPlay[1] = "N";
             }
-            else
+            else if(msg.EndsWith("P2"))
             {
                 clientPlay[0] = "N";
                 clientPlay[1] = "Y";
             }
+            else { }
         }
 
         static string Info_LabelXO()

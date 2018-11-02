@@ -25,15 +25,13 @@ namespace TicTacToe
         public frmEntryForm()
         {
             InitializeComponent();
-
-
         }
 
         /// <summary>
-        /// 
+        /// Clicking game modes
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">clicked button</param>
+        /// <param name="e">event args</param>
         private void OnClick(object sender, EventArgs e)
         {
             MetroButton clickedButton = (MetroButton)sender;
@@ -96,14 +94,11 @@ namespace TicTacToe
                     Form_Info = new frmInfoForm(buttonText);
                     Form_Info.ShowDialog();
                     break;
-            }
-
-            
+            }//controls          
         }
 
-
         /// <summary>
-        /// 
+        /// Server creation method -GameServer.exe-
         /// </summary>
         private void CreateServer()
         {
@@ -113,7 +108,7 @@ namespace TicTacToe
             DirectoryInfo di3 = Directory.GetParent(di2.ToString());
 
             string editedPath = di3.ToString();
-            editedPath += @"\GameServer\bin\Debug\GameServer.exe";
+            editedPath += @"\GameServer\bin\Debug\GameServer.exe"; // GameServer.exe path
 
             System.Diagnostics.Process.Start(editedPath);
         }

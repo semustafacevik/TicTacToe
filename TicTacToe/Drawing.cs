@@ -30,5 +30,5 @@ namespace TicTacToe
             graphic.DrawLine(pen, new Point(0, 100), new Point(300, 100));
             graphic.DrawLine(pen, new Point(0, 200), new Point(300, 200));
         }
-    }
+    } //Coloring
 }

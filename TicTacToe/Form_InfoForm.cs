@@ -18,10 +18,11 @@ namespace TicTacToe
         Player2 P2 = new Player2();
 
         string gameMode;
+
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
-        /// <param name="gameMode"></param>
+        /// <param name="gameMode">Selected game mode</param>
         public frmInfoForm(string gameMode)
         {
             InitializeComponent();
@@ -29,6 +30,11 @@ namespace TicTacToe
             FormRegulations(gameMode);
         }
 
+        /// <summary>
+        /// Clicking start button
+        /// </summary>
+        /// <param name="sender">Clicked button(Start button)</param>
+        /// <param name="e">Event args</param>
         private void btnStart_Click(object sender, EventArgs e)
         {
             P1.name = txtNameP1.Text;
@@ -66,7 +72,7 @@ namespace TicTacToe
                         P2.name = "Computer";
 
                     break;
-            }
+            }//controls
 
             this.Close();
             Form_Game = new frmGameForm(gameMode, P1, P2);
@@ -74,10 +80,10 @@ namespace TicTacToe
         }
 
         /// <summary>
-        /// 
+        /// Clicking X-O button
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Clicked button(X-0)</param>
+        /// <param name="e">Event args</param>
         private void OnClick_XO(object sender, EventArgs e)
         {
             MetroButton clickedButton = (MetroButton)sender;
@@ -107,16 +113,16 @@ namespace TicTacToe
 
                 default:
                     break;
-            }
+            }//controls
 
             ButtonRegulations();
         }
 
 
         /// <summary>
-        /// 
+        /// Required Form Regulations by game mode
         /// </summary>
-        /// <param name="gameMode"></param>
+        /// <param name="gameMode">Selected game mode</param>
         private void FormRegulations(string gameMode)
         {
             switch (gameMode)
@@ -142,11 +148,11 @@ namespace TicTacToe
 
                 default:
                     break;
-            }
+            }//controls
         }
 
         /// <summary>
-        /// 
+        /// Required Button Regulations (Hide or Show)
         /// </summary>
         private void ButtonRegulations()
         {
@@ -161,30 +167,29 @@ namespace TicTacToe
         } 
 
         /// <summary>
-        /// 
+        /// Check Name -> Player1
         /// </summary>
         private void CheckName_P1()
         {
-            if (txtNameP1.Text == "")
+            if (txtNameP1.Text == "") // is empty -> Player_1
                 P1.name = "Player_1";
         }
 
-
         /// <summary>
-        /// 
+        /// Check Name -> Player2
         /// </summary>
         private void CheckName_P2()
         {
-            if (txtNameP2.Text == "")
+            if (txtNameP2.Text == "") // is empty -> Player_2
                 P2.name = "Player_2";
         }
 
         /// <summary>
-        /// 
+        /// Check X-O
         /// </summary>
         private void CheckXO()
         {
-            if (P1.choice == null)
+            if (P1.choice == null) // is unselected -> P1-X & P2-O
             {
                 P1.choice = "X";
                 P2.choice = "O";
@@ -192,13 +197,13 @@ namespace TicTacToe
         }
 
         /// <summary>
-        /// 
+        /// Blocking space -> name information
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void txtName_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            e.Handled = Char.IsWhiteSpace(e.KeyChar);
+            e.Handled = Char.IsWhiteSpace(e.KeyChar); //
         }
     }
 }

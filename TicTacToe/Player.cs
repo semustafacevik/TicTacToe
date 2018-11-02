@@ -11,5 +11,5 @@ namespace TicTacToe
         public string name;
         public string choice;
         public int score;
-    }
+    }//Player informations
 }
