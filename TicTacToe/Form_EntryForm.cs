@@ -12,6 +12,7 @@ using MetroFramework.Controls;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
+using System.Threading;
 
 namespace TicTacToe
 {
@@ -25,8 +26,15 @@ namespace TicTacToe
         public frmEntryForm()
         {
             InitializeComponent();
+
+
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnClick(object sender, EventArgs e)
         {
             MetroButton clickedButton = (MetroButton)sender;
@@ -51,9 +59,9 @@ namespace TicTacToe
                         Form_Info = new frmInfoForm(buttonText);
                         Form_Info.ShowDialog();
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        MetroMessageBox.Show(this, "Server couldn't be created", "ERROR", 100);
+                        MetroMessageBox.Show(this, "Server couldn't be created (" + ex.Message + ")", "ERROR");
                     }
 
                     break;
@@ -94,6 +102,10 @@ namespace TicTacToe
             
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
         private void CreateServer()
         {
             string path = System.Windows.Forms.Application.StartupPath;
@@ -106,5 +118,6 @@ namespace TicTacToe
 
             System.Diagnostics.Process.Start(editedPath);
         }
+
     }
 }

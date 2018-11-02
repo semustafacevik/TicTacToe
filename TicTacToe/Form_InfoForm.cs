@@ -18,6 +18,10 @@ namespace TicTacToe
         Player2 P2 = new Player2();
 
         string gameMode;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="gameMode"></param>
         public frmInfoForm(string gameMode)
         {
             InitializeComponent();
@@ -27,7 +31,6 @@ namespace TicTacToe
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            this.Hide();
             P1.name = txtNameP1.Text;
             P2.name = txtNameP2.Text;
 
@@ -69,6 +72,11 @@ namespace TicTacToe
             Form_Game.ShowDialog();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnClick_XO(object sender, EventArgs e)
         {
             MetroButton clickedButton = (MetroButton)sender;
@@ -104,7 +112,10 @@ namespace TicTacToe
         }
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="gameMode"></param>
         private void FormRegulations(string gameMode)
         {
             switch (gameMode)
@@ -133,6 +144,9 @@ namespace TicTacToe
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void ButtonRegulations()
         {
             btnXP1.Hide();
@@ -145,18 +159,28 @@ namespace TicTacToe
             lblChoiceP2.Text = P2.choice;
         } 
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void CheckName_P1()
         {
             if (txtNameP1.Text == "")
                 P1.name = "Player_1";
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
         private void CheckName_P2()
         {
             if (txtNameP2.Text == "")
                 P2.name = "Player_2";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void CheckXO()
         {
             if (P1.choice == null)
@@ -166,6 +190,11 @@ namespace TicTacToe
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txtName_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             e.Handled = Char.IsWhiteSpace(e.KeyChar);

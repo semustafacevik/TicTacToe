@@ -33,11 +33,11 @@
             this.btnCreate = new MetroFramework.Controls.MetroButton();
             this.btnSocket = new MetroFramework.Controls.MetroButton();
             this.btnComputer = new MetroFramework.Controls.MetroButton();
-            this.btnTimed = new MetroFramework.Controls.MetroButton();
             this.btnFriend = new MetroFramework.Controls.MetroButton();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.btnJoin = new MetroFramework.Controls.MetroButton();
             this.btnConnect = new MetroFramework.Controls.MetroButton();
+            this.btnTimed = new MetroFramework.Controls.MetroButton();
             this.SuspendLayout();
             // 
             // lblIP
@@ -126,20 +126,6 @@
             this.btnComputer.UseSelectable = true;
             this.btnComputer.Click += new System.EventHandler(this.OnClick);
             // 
-            // btnTimed
-            // 
-            this.btnTimed.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.btnTimed.FontSize = MetroFramework.MetroButtonSize.Medium;
-            this.btnTimed.FontWeight = MetroFramework.MetroButtonWeight.Regular;
-            this.btnTimed.Location = new System.Drawing.Point(134, 153);
-            this.btnTimed.Name = "btnTimed";
-            this.btnTimed.Size = new System.Drawing.Size(140, 27);
-            this.btnTimed.TabIndex = 8;
-            this.btnTimed.Text = "TIMED";
-            this.btnTimed.UseCustomBackColor = true;
-            this.btnTimed.UseSelectable = true;
-            this.btnTimed.Click += new System.EventHandler(this.OnClick);
-            // 
             // btnFriend
             // 
             this.btnFriend.BackColor = System.Drawing.Color.LightSeaGreen;
@@ -195,6 +181,20 @@
             this.btnConnect.Visible = false;
             this.btnConnect.Click += new System.EventHandler(this.OnClick);
             // 
+            // btnTimed
+            // 
+            this.btnTimed.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.btnTimed.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnTimed.FontWeight = MetroFramework.MetroButtonWeight.Regular;
+            this.btnTimed.Location = new System.Drawing.Point(134, 153);
+            this.btnTimed.Name = "btnTimed";
+            this.btnTimed.Size = new System.Drawing.Size(140, 27);
+            this.btnTimed.TabIndex = 9;
+            this.btnTimed.Text = "TIMED";
+            this.btnTimed.UseCustomBackColor = true;
+            this.btnTimed.UseSelectable = true;
+            this.btnTimed.Click += new System.EventHandler(this.OnClick);
+            // 
             // frmEntryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -226,11 +226,11 @@
         private MetroFramework.Controls.MetroButton btnCreate;
         private MetroFramework.Controls.MetroButton btnSocket;
         private MetroFramework.Controls.MetroButton btnComputer;
-        private MetroFramework.Controls.MetroButton btnTimed;
         private MetroFramework.Controls.MetroButton btnFriend;
         private MetroFramework.Controls.MetroLabel metroLabel1;
         private MetroFramework.Controls.MetroButton btnJoin;
         private MetroFramework.Controls.MetroButton btnConnect;
+        private MetroFramework.Controls.MetroButton btnTimed;
     }
 }
 

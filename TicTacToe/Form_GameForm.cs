@@ -29,6 +29,12 @@ namespace TicTacToe
         enWinner winner;
         enStarting starting;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="gameMode"></param>
+        /// <param name="P1"></param>
+        /// <param name="P2"></param>
         public frmGameForm(string gameMode, Player1 P1, Player2 P2)
         {
             InitializeComponent();
@@ -36,7 +42,6 @@ namespace TicTacToe
             this.P1 = P1;
             this.P2 = P2;
             starting = enStarting.None;
-
 
             if (this.gameMode == enGameMode.Socket_Create || this.gameMode == enGameMode.Socket_Connect)
             {
@@ -93,7 +98,15 @@ namespace TicTacToe
                     }
 
                     else
-                        MetroMessageBox.Show(this, "Waiting Player2", "", 100);
+                    {
+                        DialogResult dr;
+                        dr = MetroMessageBox.Show(this, "Waiting Player2", "", MessageBoxButtons.OKCancel, 100);
+                        if (dr == DialogResult.Cancel)
+                        {
+                            this.Close();
+                            break;
+                        }
+                    }
                 }
             }
 
@@ -120,8 +133,6 @@ namespace TicTacToe
             lblNameP1.FontWeight = MetroLabelWeight.Regular;
             lblNameP2.FontWeight = MetroLabelWeight.Regular;
 
-
-
             Label[] allLabels = { lbl0, lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7, lbl8 };
 
             foreach (Label label in allLabels)
@@ -129,23 +140,32 @@ namespace TicTacToe
                 label.Text = null;
                 label.BackColor = Color.LightGreen;
             }
-
-            if (starting == enStarting.None || starting == enStarting.Player2)
+            switch (starting)
             {
-                playerTurn = enPlayerTurn.Player1;
-                starting = enStarting.Player1;
-                ShowTurn(playerTurn.ToString());
+                case enStarting.None:
+                case enStarting.Player2:
+                    playerTurn = enPlayerTurn.Player1;
+                    starting = enStarting.Player1;
+                    ShowTurn(playerTurn.ToString());
+                    break;
+
+                case enStarting.Player1:
+                    playerTurn = enPlayerTurn.Player2;
+                    starting = enStarting.Player2;
+                    ShowTurn(playerTurn.ToString());
+                    break;
+
+                default:
+                    break;
             }
 
-            else if (starting == enStarting.Player1)
+            if (gameMode == enGameMode.Timed)
             {
-                playerTurn = enPlayerTurn.Player2;
-                starting = enStarting.Player2;
-                ShowTurn(playerTurn.ToString());
-            }
-
-            else
-            {
+                timer.Start();
+                timer.Interval = 500;
+                timer_countdown.Start();
+                timer_countdown.Interval = 1000;
+                pnlTime.Show();
             }
 
             winner = enWinner.None;
@@ -214,6 +234,10 @@ namespace TicTacToe
                             }
                         }
 
+                        pnlTime.Hide();
+                        timer.Stop();
+                        timer_countdown.Stop();
+
                         if (gameMode == enGameMode.Computer && winner == enWinner.Player2)
                             MetroMessageBox.Show(this, "Computer", "WINNER", 90);
                         else
@@ -241,11 +265,18 @@ namespace TicTacToe
             //it is definitely a draw
             lblScoreDraw.Text = (++drawScore).ToString();
             lblScoreDraw.BackColor = Color.LimeGreen;
+            pnlTime.Hide();
+            timer.Stop();
+            timer_countdown.Stop();
+
             MetroMessageBox.Show(this, "DRAW", "RESULT", 90);
             return enWinner.Draw;
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void Computer()
         {
             Label[] allLabels = { lbl0, lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7, lbl8 };
@@ -281,6 +312,11 @@ namespace TicTacToe
         bool refreshGame = false;
         bool startGame = false;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnClick(object sender, EventArgs e)
         {
             Label clickedLabel = (Label)sender;
@@ -298,7 +334,7 @@ namespace TicTacToe
                 }
 
                 else
-                    MetroMessageBox.Show(this, "Please click the \"Reflesh\" button", "", 90);
+                    MetroMessageBox.Show(this, "Please click the \"Refresh\" button", "", 90);
 
                 refreshGame = false;
                 startGame = false;
@@ -341,8 +377,6 @@ namespace TicTacToe
 
                         break;
 
-
-
                     case enGameMode.Friend:
 
                         if (winner == enWinner.None)
@@ -360,21 +394,15 @@ namespace TicTacToe
 
                         break;
 
-
-                    case enGameMode.Socket_Create:
-
-                        if (frmEntryForm.socket.Connected)
-                        {
-                            //LabelXOSelection();
-
-                            byte[] incomingMsg = new byte[256];
-                            string message = " " + labelName + labelText + "P1";
-
-                            frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(message));
-                        }
+                    case enGameMode.Timed:
+                        time = -1;
+                        time_countdown = 6;
 
                         if (winner == enWinner.None)
                         {
+                            //Change turns
+                            playerTurn = (enPlayerTurn.Player1 == playerTurn) ? enPlayerTurn.Player2 : enPlayerTurn.Player1;
+                            ShowTurn(playerTurn.ToString());
 
                         }
                         else
@@ -383,36 +411,7 @@ namespace TicTacToe
                             OnNewGame();
                         }
 
-
-
                         break;
-
-
-                    case enGameMode.Socket_Connect:
-
-                        if (frmEntryForm.socket.Connected)
-                        {
-                            byte[] incomingMsg = new byte[256];
-                            string message = " " + labelName + labelText + "P2";
-
-                            frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(message));
-                        }
-
-                        if (winner == enWinner.None)
-                        {
-                        }
-
-                        else
-                        {
-                            playerTurn = enPlayerTurn.None;
-                            OnNewGame();
-                        }
-
-
-
-                        break;
-
-
 
 
                     default:
@@ -421,6 +420,10 @@ namespace TicTacToe
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="clickedLabel"></param>
         private void OnClick_Socket(Label clickedLabel)
         {
             string labelName = clickedLabel.Name;
@@ -437,8 +440,6 @@ namespace TicTacToe
             }
 
             winner = GetWinner();
-            
-
 
             labelText = clickedLabel.Text;
 
@@ -461,6 +462,7 @@ namespace TicTacToe
                     else
                     {
                         playerTurn = enPlayerTurn.None;
+                        frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(" lbl9-P*"));
                         OnNewGame();
                     }
 
@@ -485,10 +487,9 @@ namespace TicTacToe
                     else
                     {
                         playerTurn = enPlayerTurn.None;
+                        frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(" lbl9-P*"));
                         OnNewGame();
                     }
-
-
 
                     break;
 
@@ -501,13 +502,21 @@ namespace TicTacToe
         }
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pnlGame_Paint(object sender, PaintEventArgs e)
         {
             Graphics graphic = pnlGame.CreateGraphics();
             CS_Drawing = new Drawing(graphic);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="gameMode"></param>
         private void GameModeSelection(string gameMode)
         {
             switch (gameMode)
@@ -522,6 +531,11 @@ namespace TicTacToe
 
                 case "TIMED":
                     this.gameMode = enGameMode.Timed;
+                    circularProgressBar.Value = 0;
+                    lblTime.Text = "";
+                    circularProgressBar.Minimum = 0;
+                    circularProgressBar.Maximum = 10;
+                    this.Size = new Size(458, 510);
                     break;
 
                 case "CREATE SERVER":
@@ -539,6 +553,11 @@ namespace TicTacToe
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
         private string Edit_IncomingMessage(byte[] msg)
         {
             string incomingMsg = (Encoding.UTF8.GetString(msg));
@@ -550,6 +569,9 @@ namespace TicTacToe
             return editedMessage;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void LabelXO_Placement()
         {
             Label[] allLabels = { lbl0, lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7, lbl8 };
@@ -577,6 +599,11 @@ namespace TicTacToe
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="XO"></param>
+        /// <returns></returns>
         private string[] LabelXOSelection(string XO)
         {
             string[] labelXO = new string[9];
@@ -593,6 +620,10 @@ namespace TicTacToe
             return labelXO;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="playerTurn"></param>
         private void ShowTurn(string playerTurn)
         {
             switch (playerTurn)
@@ -622,7 +653,11 @@ namespace TicTacToe
         }
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnRefresh_Click(object sender, EventArgs e)
         {  
             winner = GetWinner();
@@ -710,6 +745,49 @@ namespace TicTacToe
                 default:
                     break;
             }
+        }
+
+        int time = -1;
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            time++;
+            circularProgressBar.Value = time;
+            
+            if (time == 10)
+            {
+                timer.Stop();
+                time = -1;
+            }
+        }
+
+        int time_countdown = 6;
+        private void timer_countdown_Tick(object sender, EventArgs e)
+        {
+            time_countdown--;
+            lblTime.Text = time_countdown.ToString();          
+
+            if (time_countdown == 0)
+            {
+                timer_countdown.Stop();
+                time_countdown = 6;
+
+                if (playerTurn == enPlayerTurn.Player1)
+                {
+                    lblNameP2.BackColor = Color.LimeGreen;
+                    P2.score++;
+                    winner = enWinner.Player2;
+                }
+
+                else if (playerTurn == enPlayerTurn.Player2)
+                {
+                    lblNameP1.BackColor = Color.LimeGreen;
+                    P1.score++;                 
+                    winner = enWinner.Player1;
+                }
+
+                MetroMessageBox.Show(this, winner.ToString(), "WINNER", 90);
+                OnNewGame();
+            }    
         }
     }
 }

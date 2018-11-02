@@ -13,3 +13,7 @@ C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\obj\Debug\TicTacToe.exe
 C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\obj\Debug\TicTacToe.pdb
 C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\obj\Debug\TicTacToe.frmInfoForm.resources
 C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\obj\Debug\TicTacToe.frmGameForm.resources
+C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\bin\Debug\CircularProgressBar.dll
+C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\bin\Debug\WinFormAnimation.dll
+C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\bin\Debug\CircularProgressBar.xml
+C:\Users\MustafaCevik\source\repos\TicTacToe\TicTacToe\bin\Debug\WinFormAnimation.xml

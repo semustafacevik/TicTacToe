@@ -31,6 +31,7 @@ namespace TicTacToe
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pnlGame = new System.Windows.Forms.Panel();
             this.lbl8 = new System.Windows.Forms.Label();
             this.lbl5 = new System.Windows.Forms.Label();
@@ -50,7 +51,13 @@ namespace TicTacToe
             this.lblChoiceP1 = new MetroFramework.Controls.MetroLabel();
             this.lblChoiceP2 = new MetroFramework.Controls.MetroLabel();
             this.btnRefresh = new MetroFramework.Controls.MetroButton();
+            this.circularProgressBar = new CircularProgressBar.CircularProgressBar();
+            this.lblTime = new MetroFramework.Controls.MetroLabel();
+            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.timer_countdown = new System.Windows.Forms.Timer(this.components);
+            this.pnlTime = new MetroFramework.Controls.MetroPanel();
             this.pnlGame.SuspendLayout();
+            this.pnlTime.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlGame
@@ -283,7 +290,7 @@ namespace TicTacToe
             // 
             this.btnRefresh.BackColor = System.Drawing.Color.Transparent;
             this.btnRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRefresh.Location = new System.Drawing.Point(396, 31);
+            this.btnRefresh.Location = new System.Drawing.Point(385, 31);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(64, 23);
             this.btnRefresh.TabIndex = 2;
@@ -293,11 +300,80 @@ namespace TicTacToe
             this.btnRefresh.Visible = false;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
+            // circularProgressBar
+            // 
+            this.circularProgressBar.AnimationFunction = WinFormAnimation.KnownAnimationFunctions.Liner;
+            this.circularProgressBar.AnimationSpeed = 500;
+            this.circularProgressBar.BackColor = System.Drawing.Color.Transparent;
+            this.circularProgressBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(1)), true);
+            this.circularProgressBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.circularProgressBar.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.circularProgressBar.InnerMargin = 2;
+            this.circularProgressBar.InnerWidth = -1;
+            this.circularProgressBar.Location = new System.Drawing.Point(3, 3);
+            this.circularProgressBar.MarqueeAnimationSpeed = 2000;
+            this.circularProgressBar.Name = "circularProgressBar";
+            this.circularProgressBar.OuterColor = System.Drawing.Color.Gray;
+            this.circularProgressBar.OuterMargin = -25;
+            this.circularProgressBar.OuterWidth = 26;
+            this.circularProgressBar.ProgressColor = System.Drawing.Color.IndianRed;
+            this.circularProgressBar.ProgressWidth = 25;
+            this.circularProgressBar.SecondaryFont = new System.Drawing.Font("Microsoft Sans Serif", 36F);
+            this.circularProgressBar.Size = new System.Drawing.Size(100, 100);
+            this.circularProgressBar.StartAngle = 270;
+            this.circularProgressBar.SubscriptColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
+            this.circularProgressBar.SubscriptMargin = new System.Windows.Forms.Padding(10, -35, 0, 0);
+            this.circularProgressBar.SubscriptText = "";
+            this.circularProgressBar.SuperscriptColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
+            this.circularProgressBar.SuperscriptMargin = new System.Windows.Forms.Padding(10, 35, 0, 0);
+            this.circularProgressBar.SuperscriptText = "";
+            this.circularProgressBar.TabIndex = 3;
+            this.circularProgressBar.TextMargin = new System.Windows.Forms.Padding(8, 8, 0, 0);
+            this.circularProgressBar.Value = 68;
+            // 
+            // lblTime
+            // 
+            this.lblTime.AutoSize = true;
+            this.lblTime.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.lblTime.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.lblTime.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+            this.lblTime.Location = new System.Drawing.Point(43, 41);
+            this.lblTime.Name = "lblTime";
+            this.lblTime.Size = new System.Drawing.Size(22, 25);
+            this.lblTime.TabIndex = 4;
+            this.lblTime.Text = "5";
+            this.lblTime.UseCustomBackColor = true;
+            // 
+            // timer
+            // 
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
+            // timer_countdown
+            // 
+            this.timer_countdown.Tick += new System.EventHandler(this.timer_countdown_Tick);
+            // 
+            // pnlTime
+            // 
+            this.pnlTime.Controls.Add(this.lblTime);
+            this.pnlTime.Controls.Add(this.circularProgressBar);
+            this.pnlTime.HorizontalScrollbarBarColor = true;
+            this.pnlTime.HorizontalScrollbarHighlightOnWheel = false;
+            this.pnlTime.HorizontalScrollbarSize = 10;
+            this.pnlTime.Location = new System.Drawing.Point(172, 401);
+            this.pnlTime.Name = "pnlTime";
+            this.pnlTime.Size = new System.Drawing.Size(107, 110);
+            this.pnlTime.TabIndex = 5;
+            this.pnlTime.VerticalScrollbarBarColor = true;
+            this.pnlTime.VerticalScrollbarHighlightOnWheel = false;
+            this.pnlTime.VerticalScrollbarSize = 10;
+            this.pnlTime.Visible = false;
+            // 
             // frmGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(470, 413);
+            this.ClientSize = new System.Drawing.Size(458, 412);
+            this.Controls.Add(this.pnlTime);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.lblChoiceP2);
             this.Controls.Add(this.lblScoreP2);
@@ -314,6 +390,8 @@ namespace TicTacToe
             this.TransparencyKey = System.Drawing.Color.Empty;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmGameForm_FormClosed);
             this.pnlGame.ResumeLayout(false);
+            this.pnlTime.ResumeLayout(false);
+            this.pnlTime.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -338,5 +416,10 @@ namespace TicTacToe
         private MetroFramework.Controls.MetroLabel lblChoiceP1;
         private MetroFramework.Controls.MetroLabel lblChoiceP2;
         private MetroFramework.Controls.MetroButton btnRefresh;
+        private CircularProgressBar.CircularProgressBar circularProgressBar;
+        private MetroFramework.Controls.MetroLabel lblTime;
+        private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.Timer timer_countdown;
+        private MetroFramework.Controls.MetroPanel pnlTime;
     }
 }
