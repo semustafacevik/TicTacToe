@@ -68,6 +68,7 @@ namespace TicTacToe
                     break;
             }
 
+            this.Close();
             Form_Game = new frmGameForm(gameMode, P1, P2);
             Form_Game.ShowDialog();
         }

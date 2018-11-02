@@ -12,7 +12,6 @@ using MetroFramework.Controls;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
-using System.Threading;
 
 namespace TicTacToe
 {
@@ -118,6 +117,5 @@ namespace TicTacToe
 
             System.Diagnostics.Process.Start(editedPath);
         }
-
     }
 }

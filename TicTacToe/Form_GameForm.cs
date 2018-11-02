@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using MetroFramework;
 using MetroFramework.Forms;
-using MetroFramework.Controls;
 using System.Windows.Forms;
 
 namespace TicTacToe
@@ -649,7 +648,23 @@ namespace TicTacToe
 
         private void frmGameForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            MessageBox.Show("Test");
+            if (gameMode == enGameMode.Socket_Create || gameMode == enGameMode.Socket_Connect)
+            {
+                try
+                {
+                    foreach (var server in System.Diagnostics.Process.GetProcessesByName("GameServer"))
+                    {
+                        server.Kill();
+                    }
+
+                    MetroMessageBox.Show(this, "Server shut down!", "", 90);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            
         }
 
 
