@@ -215,6 +215,7 @@
             this.Name = "frmEntryForm";
             this.Style = MetroFramework.MetroColorStyle.Teal;
             this.TransparencyKey = System.Drawing.Color.Empty;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmEntryForm_FormClosed);
             this.ResumeLayout(false);
 
         }

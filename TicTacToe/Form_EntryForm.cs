@@ -12,6 +12,7 @@ using MetroFramework.Controls;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
+using System.Diagnostics;
 
 namespace TicTacToe
 {
@@ -102,15 +103,29 @@ namespace TicTacToe
         /// </summary>
         private void CreateServer()
         {
+            ShutdownServer();
             string path = System.Windows.Forms.Application.StartupPath;
-            DirectoryInfo di = Directory.GetParent(path);
-            DirectoryInfo di2 = Directory.GetParent(di.ToString());
-            DirectoryInfo di3 = Directory.GetParent(di2.ToString());
-
-            string editedPath = di3.ToString();
+            DirectoryInfo dirInfo = Directory.GetParent(path).Parent.Parent;
+            string editedPath = dirInfo.FullName.ToString();
             editedPath += @"\GameServer\bin\Debug\GameServer.exe"; // GameServer.exe path
 
-            System.Diagnostics.Process.Start(editedPath);
+            Process.Start(editedPath);
+        }
+
+        /// <summary>
+        /// Server shutdown method -GameServer.exe-
+        /// </summary>
+        private void ShutdownServer()
+        {
+            foreach (var server in Process.GetProcessesByName("GameServer"))
+            {
+                server.Kill();
+            }
+        }
+
+        private void frmEntryForm_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
+        {
+            ShutdownServer();
         }
     }
 }

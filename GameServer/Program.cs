@@ -220,18 +220,8 @@ namespace GameServer
             int labelIndex = Convert.ToInt32(index);
 
             gameLabelsXO[labelIndex] = labelXO;
-
-
-
-            if(msg.EndsWith("P*"))
-            {
-                for (int i = 0; i < 9; i++)
-                {
-                    gameLabelsXO[i] = " ";
-                }
-            }
-
-            else if (msg.EndsWith("P1"))
+            
+            if (msg.EndsWith("P1"))
             {
                 clientPlay[0] = "Y";
                 clientPlay[1] = "N";

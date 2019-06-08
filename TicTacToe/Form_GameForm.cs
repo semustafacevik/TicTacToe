@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using MetroFramework;
 using MetroFramework.Forms;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace TicTacToe
 {
@@ -47,6 +48,11 @@ namespace TicTacToe
 
             if (this.gameMode == enGameMode.Socket_Create || this.gameMode == enGameMode.Socket_Connect) 
             {
+                lblNameDraw.Hide();
+                lblScoreDraw.Hide();
+                lblScoreP1.Hide();
+                lblScoreP2.Hide();
+
                 while (true)
                 {
                     byte[] message = new byte[256];
@@ -278,8 +284,8 @@ namespace TicTacToe
             } // Is empty controls
 
             // Draw
+            lblNameDraw.BackColor = Color.LimeGreen;
             lblScoreDraw.Text = (++drawScore).ToString();
-            lblScoreDraw.BackColor = Color.LimeGreen;
             pnlTime.Hide();
             timer.Stop();
             timer_countdown.Stop();
@@ -472,10 +478,7 @@ namespace TicTacToe
                     }
                     else
                     {
-                        playerTurn = enPlayerTurn.None;
-                        frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(" lbl9-P*"));
-                        frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(" Score=" + P1.score + P2.score + drawScore));
-                        OnNewGame();
+                        this.Close();
                     }
 
 
@@ -498,10 +501,7 @@ namespace TicTacToe
 
                     else
                     {
-                        playerTurn = enPlayerTurn.None;
-                        frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(" lbl9-P*"));
-                        frmEntryForm.socket.Send(Encoding.UTF8.GetBytes(" Score=" + P1.score + P2.score + drawScore));
-                        OnNewGame();
+                        this.Close();
                     }
 
                     break;
@@ -521,19 +521,7 @@ namespace TicTacToe
         /// <param name="e">Event args</param>
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            winner = GetWinner();
             LabelXO_Placement();
-
-            if (winner != enWinner.None)
-            {
-                Label[] allLabels = { lbl0, lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7, lbl8 };
-
-                foreach (Label label in allLabels)
-                {
-                    label.Text = null;
-                }
-                OnNewGame();
-            }
 
             byte[] message = new byte[256];
             string incomingMsg;
@@ -541,8 +529,19 @@ namespace TicTacToe
             frmEntryForm.socket.Receive(message);
             incomingMsg = Edit_IncomingMessage(message);
 
+            winner = GetWinner();
 
-            if (playerTurn == enPlayerTurn.Player1)
+            if (winner != enWinner.None)
+            {
+                foreach (var server in Process.GetProcessesByName("GameServer"))
+                {
+                    server.Kill();
+                }
+
+                this.Close();
+            }
+
+            else if (playerTurn == enPlayerTurn.Player1)
             {
                 if (incomingMsg == "NY") // Y = Yes ; N = No
                 {
@@ -582,10 +581,11 @@ namespace TicTacToe
                 else
                     MetroMessageBox.Show(this, "Player1 hasn't played yet", "WAITING...", 90);
             }
+            else {}
 
             refreshGame = true;
         }
-        
+   
         /// <summary>
         /// Game mode pairing (string -> enum)
         /// </summary>
@@ -730,6 +730,7 @@ namespace TicTacToe
             lblChoiceP2.BackColor = Color.Transparent;
             lblNameP1.BackColor = Color.Transparent;
             lblNameP2.BackColor = Color.Transparent;
+            lblNameDraw.BackColor = Color.Transparent;
             lblScoreDraw.BackColor = Color.Transparent;
             lblNameP1.FontWeight = MetroLabelWeight.Regular;
             lblNameP2.FontWeight = MetroLabelWeight.Regular;
@@ -824,30 +825,9 @@ namespace TicTacToe
             }    
         }
 
-        /// <summary>
-        /// This form closed
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void frmGameForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (gameMode == enGameMode.Socket_Create || gameMode == enGameMode.Socket_Connect)
-            {
-                try
-                {
-                    foreach (var server in System.Diagnostics.Process.GetProcessesByName("GameServer"))
-                    {
-                        server.Kill();
-                    }
-
-                    MetroMessageBox.Show(this, "Server shut down!", "", 90);
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
-
+            timer_countdown.Stop();
         }
     }
 }

@@ -46,7 +46,7 @@ namespace TicTacToe
             this.lblNameP2 = new MetroFramework.Controls.MetroLabel();
             this.lblScoreP1 = new MetroFramework.Controls.MetroLabel();
             this.lblScoreP2 = new MetroFramework.Controls.MetroLabel();
-            this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
+            this.lblNameDraw = new MetroFramework.Controls.MetroLabel();
             this.lblScoreDraw = new MetroFramework.Controls.MetroLabel();
             this.lblChoiceP1 = new MetroFramework.Controls.MetroLabel();
             this.lblChoiceP2 = new MetroFramework.Controls.MetroLabel();
@@ -240,17 +240,17 @@ namespace TicTacToe
             this.lblScoreP2.Text = "0";
             this.lblScoreP2.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // metroLabel3
+            // lblNameDraw
             // 
-            this.metroLabel3.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel3.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.metroLabel3.Location = new System.Drawing.Point(179, 348);
-            this.metroLabel3.Name = "metroLabel3";
-            this.metroLabel3.Size = new System.Drawing.Size(100, 25);
-            this.metroLabel3.TabIndex = 1;
-            this.metroLabel3.Text = "DRAW";
-            this.metroLabel3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.metroLabel3.UseCustomBackColor = true;
+            this.lblNameDraw.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.lblNameDraw.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblNameDraw.Location = new System.Drawing.Point(179, 348);
+            this.lblNameDraw.Name = "lblNameDraw";
+            this.lblNameDraw.Size = new System.Drawing.Size(100, 25);
+            this.lblNameDraw.TabIndex = 1;
+            this.lblNameDraw.Text = "DRAW";
+            this.lblNameDraw.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lblNameDraw.UseCustomBackColor = true;
             // 
             // lblScoreDraw
             // 
@@ -378,7 +378,7 @@ namespace TicTacToe
             this.Controls.Add(this.lblChoiceP2);
             this.Controls.Add(this.lblScoreP2);
             this.Controls.Add(this.lblScoreDraw);
-            this.Controls.Add(this.metroLabel3);
+            this.Controls.Add(this.lblNameDraw);
             this.Controls.Add(this.lblNameP2);
             this.Controls.Add(this.lblChoiceP1);
             this.Controls.Add(this.lblScoreP1);
@@ -411,7 +411,7 @@ namespace TicTacToe
         private MetroFramework.Controls.MetroLabel lblNameP2;
         private MetroFramework.Controls.MetroLabel lblScoreP1;
         private MetroFramework.Controls.MetroLabel lblScoreP2;
-        private MetroFramework.Controls.MetroLabel metroLabel3;
+        private MetroFramework.Controls.MetroLabel lblNameDraw;
         private MetroFramework.Controls.MetroLabel lblScoreDraw;
         private MetroFramework.Controls.MetroLabel lblChoiceP1;
         private MetroFramework.Controls.MetroLabel lblChoiceP2;
