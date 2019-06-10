@@ -3,7 +3,14 @@
 
 ### AÇIKLAMA
 #### Tic-Tac-Toe Oyunu
-Aynı hat üzerinde X ve O sembollerini birleştirmek hedeflenmektedir. Aynı hat üzerinde X ya da O sembollerini ilk birleştiren oyunu kazanmaktadır. Tic-Tac-Toe oyunu 3×3 boyutunda bir kare alanında oynanmaktadır.
+Aynı hat üzerinde X ve O sembollerini birleştirmek hedeflenmektedir. Aynı hat üzerinde X ya da O sembollerini ilk birleştiren oyunu kazanmaktadır. Tic-Tac-Toe oyunu 3×3 boyutunda bir kare alanında oynanmaktadır. Oyunda bulunan modlar: 
+<ul>
+  <li>Computer (Bilgisayara karşı oynama)</li>
+  <li>Friend (Arkadaşla beraber oynama)</li>
+  <li>Timed (Süreye karşı oynama)</li>
+  <li>Socket (Soket yardımıyla başka kullanıcıyla oynama)</li>
+</ul>
+
 #### Amaç
 Aynı hat üzerinde X ve O sembollerini rakipten önce birleştirip oyunu kazanmak.
 #### Girdiler
